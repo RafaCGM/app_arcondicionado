@@ -7,7 +7,7 @@ export default function HomeScreen({navigation}) {
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                 <Text style={styles.card}>Login</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
                 <Text style={styles.card}>Perfil</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('')}>
