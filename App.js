@@ -7,7 +7,7 @@ import LoginScreen from './src/screens/LoginScreen'
 import CadastroScreen from './src/screens/CadastroScreen'
 import HomeScreen from './src/screens/HomeScreen'
 import PerfilScreen from './src/screens/PerfilScreen'
-
+import ListarUsuarios from './src/screens/ListarUsuarios';
 const Drawer = createDrawerNavigator();
 
 export default function App() {
@@ -28,6 +28,10 @@ export default function App() {
         />
         <Drawer.Screen name="Perfil"
          component={PerfilScreen}
+
+        />
+        <Drawer.Screen name="ListarUsuarios"
+         component={ListarUsuarios}
 
         />
       </Drawer.Navigator>

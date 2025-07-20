@@ -10,8 +10,8 @@ export default function HomeScreen({navigation}) {
             <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
                 <Text style={styles.card}>Perfil</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('')}>
-                <Text style={styles.card}>Teste</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('ListarUsuarios')}>
+                <Text style={styles.card}>Listar Usuarios</Text>
             </TouchableOpacity>
         </View>
     )
