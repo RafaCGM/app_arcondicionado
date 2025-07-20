@@ -98,33 +98,30 @@ export default function ListarUsuarios() {
         }
     }
 
-    const renderItem = ({ item }) => {
-        return (
-            <View style={styles.containercols}>
-                    <View style={styles.itemlistacols50cols}>
-                        <Text>{"Nome: "+item.nome}</Text>
-                        <Text>{"Matricula: "+item.matricula}</Text>
-                    </View>
-                    <View style={styles.itemlistarows50cols}>
-                        <TouchableOpacity
-                            onPress={() => {
-                                navigation.navigate('DadosUsuario', { idusuario: item.idusuario })
-                            }}
-                        >
-                            <Text style={styles.button}>Editar</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => {
-                                setModalVisible(() => true)
-                                setIdUsuarioRem(() => item.idusuario)
-                            }}
-                        >
-                            <Text style={styles.button}>Excluir</Text>
-                        </TouchableOpacity>
-                    </View>
+    const renderItem = ({ item }) => (
+        <View style={styles.userBox}>
+            <Text style={styles.userName}>Nome: {item.nome}</Text>
+            <Text style={styles.userMatricula}>Matrícula: {item.matricula}</Text>
+            <View style={styles.buttonRow}>
+                <TouchableOpacity
+                    style={styles.editButton}
+                    onPress={() => navigation.navigate('DadosUsuario', { idusuario: item.idusuario })}
+                >
+                    <Text style={styles.buttonText}>Editar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.deleteButton}
+                    onPress={() => {
+                        setModalVisible(true)
+                        setIdUsuarioRem(item.idusuario)
+                    }}
+                >
+                    <Text style={styles.buttonText}>Excluir</Text>
+                </TouchableOpacity>
             </View>
-        )
-    }
+        </View>
+    )
+
     const delRegistro = () => {
         setModalVisible(() => false)
         setConfirmDel(() => true)

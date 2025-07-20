@@ -1,9 +1,13 @@
-import { View, Text, TextInput, Image, TouchableOpacity } from "react-native"
+import { View, Text, TouchableOpacity, ImageBackground } from "react-native"
 import styles from '../global/GlobalStyles'
 
 export default function HomeScreen({navigation}) {
     return (
-        <View style={styles.container}>
+        <ImageBackground
+            source={require('../../assets/autocooler.png')}
+            style={styles.container}
+            resizeMode="cover"
+        >
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                 <Text style={styles.card}>Login</Text>
             </TouchableOpacity>
@@ -13,6 +17,6 @@ export default function HomeScreen({navigation}) {
             <TouchableOpacity onPress={() => navigation.navigate('ListarUsuarios')}>
                 <Text style={styles.card}>Listar Usuarios</Text>
             </TouchableOpacity>
-        </View>
+        </ImageBackground>
     )
 }
