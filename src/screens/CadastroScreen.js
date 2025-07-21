@@ -67,10 +67,6 @@ export default function CadastroScreen({navigation}) {
                 <TouchableOpacity onPress={signup}>
                     <Text style={styles.button}>Cadastrar</Text>
                 </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                    <Text> Já possui uma conta? Clique aqui</Text>
-                </TouchableOpacity>
             </View>
         </View>
     )

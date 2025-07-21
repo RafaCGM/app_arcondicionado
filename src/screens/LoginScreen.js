@@ -21,7 +21,6 @@ export default function LoginScreen({navigation}) {
 
             if (res.data.num_erro == 0) {
 
-                alert(res.data.msg)
                 navigation.navigate('Home')
             }
 
@@ -57,9 +56,6 @@ export default function LoginScreen({navigation}) {
                     <Text style={styles.button}>Login</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
-                    <Text> Não possui uma conta? Clique aqui</Text>
-                </TouchableOpacity>
             </View>
         </View>
     )
