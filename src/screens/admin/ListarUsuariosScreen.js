@@ -1,25 +1,15 @@
-// Biblioteca básica
 import React from "react";
+import axios from 'axios'
+import { server } from '../../global/GlobalVars';
 
-//Import temporário para armazenar as variáveis que ficarão no UseContext
-import { useState, useEffect } from "react";
-
-// Imports de componentes para IG do React
 import { View, Text, TextInput, Image, TouchableOpacity, FlatList, Modal } from "react-native"
 
-// Import de estilos da IG
-import styles from '../global/GlobalStyles'
-
-//Imports para acesso ao BD
-import axios from 'axios'
-
-// Imports para parâmetros do Sistema
-import { server } from '../global/GlobalVars';
-
-// Bibliotecas do Navigation
+import { useState, useEffect } from "react";
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import { useFocusEffect } from "@react-navigation/native";
+
+import styles from '../../global/GlobalStyles'
 
 export default function ListarUsuarios() {
 
@@ -27,10 +17,8 @@ export default function ListarUsuarios() {
     const [confirmDel, setConfirmDel] = useState(false);
     const [idUsuarioRem, setIdUsuarioRem] = useState(0);
 
-    // Dados da lista
     const [dados, setDados] = useState()
 
-    // Navegação entre telas
     const navigation = useNavigation()
     const route = useRoute()
 
@@ -132,7 +120,6 @@ export default function ListarUsuarios() {
         setConfirmDel(() => false)
     }
 
-
     return (
         <View style={styles.containerTop2}>
             <Modal
@@ -159,6 +146,9 @@ export default function ListarUsuarios() {
                 keyExtractor={user => user.idusuario}
                 renderItem={renderItem}
             />
+            <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
+                <Text style={styles.button}>Cadastrar Usuário</Text>
+            </TouchableOpacity>
         </View>
     )
 

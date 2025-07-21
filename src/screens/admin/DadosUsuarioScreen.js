@@ -1,7 +1,6 @@
-// Biblioteca básica
 import React from "react";
 import axios from 'axios'
-import { server } from '../global/GlobalVars';
+import { server } from '../../global/GlobalVars';
 
 import { View, Text, TextInput, Image, TouchableOpacity } from "react-native"
 
@@ -10,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import { useFocusEffect } from "@react-navigation/native";
 
-import styles from '../global/GlobalStyles'
+import styles from '../../global/GlobalStyles'
 
 export default function DadosUsuarioScreen() {
     const [idusuario, setIdUsuario] = useState('')
@@ -44,7 +43,6 @@ export default function DadosUsuarioScreen() {
             const user = await axios.post(`${server}/usuarios/get`, {
                 idusuario: route.params.idusuario,
             })
-            //console.log(user.data)
             setIdUsuario(user.data.res.idusuario)
             setMatricula(user.data.res.matricula)
             setNome(user.data.res.nome)

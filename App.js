@@ -3,12 +3,15 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
+// Telas gerais
 import LoginScreen from './src/screens/LoginScreen'
-import CadastroScreen from './src/screens/CadastroScreen'
 import HomeScreen from './src/screens/HomeScreen'
 import PerfilScreen from './src/screens/PerfilScreen'
-import ListarUsuariosScreen from './src/screens/ListarUsuariosScreen'
-import DadosUsuarioScreen from './src/screens/DadosUsuarioScreen'
+
+// Telas de CRUD
+import CadastroScreen from './src/screens/admin/CadastroScreen'
+import ListarUsuariosScreen from './src/screens/admin/ListarUsuariosScreen'
+import DadosUsuarioScreen from './src/screens/admin/DadosUsuarioScreen'
 
 const Drawer = createDrawerNavigator();
 
