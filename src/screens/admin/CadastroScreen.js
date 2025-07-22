@@ -27,7 +27,7 @@ export default function CadastroScreen({navigation}) {
             if (res.data.num_erro == 0) {
 
                 alert(res.data.msg)
-                navigation.goBack()
+                navigation.navigate('ListarUsuarios')
             }
 
             if (res.data.num_erro == 1) {

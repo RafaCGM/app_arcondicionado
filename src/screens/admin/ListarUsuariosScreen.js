@@ -53,7 +53,6 @@ export default function ListarUsuarios() {
             )
 
             if (res.data.num_erro == 0) {
-                alert(res.data.msg)
                 list()
             }
 

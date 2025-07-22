@@ -59,6 +59,7 @@ export default function DadosUsuarioScreen() {
         try {
             console.log(`${server}/usuarios/update`)
             const res = await axios.post(`${server}/usuarios/update`, {
+                idusuario: idusuario,
                 matricula: matricula,
                 nome: nome,
                 email: email,
@@ -68,7 +69,7 @@ export default function DadosUsuarioScreen() {
             if (res.data.num_erro == 0) {
 
                 alert(res.data.msg)
-                navigation.goBack()
+                navigation.navigate('ListarUsuarios')
             }
 
             if (res.data.num_erro == 1) {
