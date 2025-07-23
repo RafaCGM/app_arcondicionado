@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -24,7 +25,33 @@ const Tab = createBottomTabNavigator();
 
 function BottomTabsNavigator() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          switch (route.name) {
+            case 'Home':
+              iconName = focused ? 'home' : 'home-outline';
+              break;
+            case 'Perfil':
+              iconName = focused ? 'person' : 'person-outline';
+              break;
+            case 'Geral':
+              iconName = focused ? 'list' : 'list-outline';
+              break;
+            case 'Configurações':
+              iconName = focused ? 'settings' : 'settings-outline';
+              break;
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: 'green',
+        tabBarInactiveTintColor: 'gray',
+        headerShown: false,
+      })}
+    >
       <Tab.Screen name="Home" 
         component={HomeScreen}
       />
@@ -34,7 +61,7 @@ function BottomTabsNavigator() {
       <Tab.Screen name="Perfil" 
         component={PerfilScreen}
       />
-      <Tab.Screen name="Config" 
+      <Tab.Screen name="Configurações" 
         component={ConfigScreen} 
       />
     </Tab.Navigator>
