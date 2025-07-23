@@ -6,9 +6,6 @@ import styles from '../global/GlobalStyles'
 export default function PerfilScreen({navigation}) {
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Text style={styles.card}>Voltar</Text>
-            </TouchableOpacity>
         </View>
     )
 }

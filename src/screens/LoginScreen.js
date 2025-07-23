@@ -22,7 +22,7 @@ export default function LoginScreen({navigation}) {
 
             if (res.data.num_erro == 0) {
 
-                navigation.navigate('Home')
+                navigation.navigate('Main')
             }
 
             if (res.data.num_erro == 1) {

@@ -3,9 +3,10 @@ import { View, Text, TouchableOpacity} from "react-native"
 
 import styles from '../global/GlobalStyles'
 
-export default function HomeScreen({navigation}) {
+export default function ConfigScreen({navigation}) {
     return (
         <View style={styles.container}>
+            
         </View>
     )
 }

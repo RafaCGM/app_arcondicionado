@@ -92,7 +92,7 @@ export default function ListarUsuarios() {
             <View style={styles.buttonRow}>
                 <TouchableOpacity
                     style={styles.editButton}
-                    onPress={() => navigation.navigate('DadosUsuario', { idusuario: item.idusuario })}
+                    onPress={() => navigation.navigate('Dados do Usuário', { idusuario: item.idusuario })}
                 >
                     <Text style={styles.buttonText}>Editar</Text>
                 </TouchableOpacity>
@@ -145,7 +145,7 @@ export default function ListarUsuarios() {
                 keyExtractor={user => user.idusuario}
                 renderItem={renderItem}
             />
-            <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Cadastrar Usuário')}>
                 <Text style={styles.button}>Cadastrar Usuário</Text>
             </TouchableOpacity>
         </View>
