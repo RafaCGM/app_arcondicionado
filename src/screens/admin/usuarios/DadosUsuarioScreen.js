@@ -1,6 +1,6 @@
 import React from "react";
 import axios from 'axios'
-import { server } from '../../global/GlobalVars';
+import { server } from '../../../global/GlobalVars';
 
 import { View, Text, TextInput, Image, TouchableOpacity } from "react-native"
 
@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useRoute } from '@react-navigation/native';
 import { useFocusEffect } from "@react-navigation/native";
 
-import styles from '../../global/GlobalStyles'
+import styles from '../../../global/GlobalStyles'
 
 export default function DadosUsuarioScreen({navigation}) {
     const [idusuario, setIdUsuario] = useState('')
@@ -21,13 +21,8 @@ export default function DadosUsuarioScreen({navigation}) {
 
     useFocusEffect(
         React.useCallback(() => {
-            // Do something when the screen is focused
-            //alert('OK ' + route.params.idusuario)
             getUsuario()
             return () => {
-                // Do something when the screen is unfocused
-                // Useful for cleanup functions
-                //setLoad(true)
                 route.params = null
             };
         }, [route.params.idusuario])
@@ -45,9 +40,6 @@ export default function DadosUsuarioScreen({navigation}) {
             setNome(user.data.res.nome)
             setEmail(user.data.res.email)
         } catch (e) {
-            //showError(e)
-            // @TODO
-            // Colocar msg erro com Modal
             console.log(e)
         }
     }
@@ -74,7 +66,6 @@ export default function DadosUsuarioScreen({navigation}) {
             }
 
         } catch (e) {
-            //showError(e)
             console.log(e)
             alert(e)
         }

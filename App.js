@@ -15,9 +15,15 @@ import GeralScreen from './src/screens/GeralScreen';
 import ConfigScreen from './src/screens/ConfigScreen';
 
 // Telas de CRUD
-import CadastroScreen from './src/screens/admin/CadastroScreen'
-import ListarUsuariosScreen from './src/screens/admin/ListarUsuariosScreen'
-import DadosUsuarioScreen from './src/screens/admin/DadosUsuarioScreen'
+import ListarUsuariosScreen from './src/screens/admin/usuarios/ListarUsuariosScreen'
+import CadastroScreen from './src/screens/admin//usuarios/CadastroScreen'
+import DadosUsuarioScreen from './src/screens/admin/usuarios/DadosUsuarioScreen'
+
+import ListarEspacosScreen from './src/screens/admin/espaco/ListarEspacosScreen'
+import CadastroEspacoScreen from './src/screens/admin/espaco/CadastroEspacoScreen';
+import DadosEspacoScreen from './src/screens/admin/espaco/DadosEspacoScreen';
+
+
 
 const Stack = createNativeStackNavigator(); 
 const Tab = createBottomTabNavigator();
@@ -73,6 +79,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Login'>
 
+        {/* TELAS GERAIS */}
+
         <Stack.Screen name="Login"
           component={LoginScreen} 
           options={{ headerShown: false}}
@@ -83,19 +91,29 @@ export default function App() {
         />
 
 
-
+        {/* TELAS DE CRUD */}
+        
         <Stack.Screen name="Cadastrar Usuário"
           component={CadastroScreen}
-
         />
         <Stack.Screen name="Lista de Usuários"
          component={ListarUsuariosScreen}
-
         />
         <Stack.Screen name="Dados do Usuário"
          component={DadosUsuarioScreen}
-
         />
+
+
+        <Stack.Screen name="Lista de Espaços"
+         component={ListarEspacosScreen} 
+        />
+        <Stack.Screen name="Cadastro de Espaço"
+         component={CadastroEspacoScreen}
+        />
+        <Stack.Screen name="Dados do Espaço" 
+         component={DadosEspacoScreen}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

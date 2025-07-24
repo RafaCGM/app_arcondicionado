@@ -1,13 +1,13 @@
 import React from "react";
 import axios from 'axios'
-import { server } from '../../global/GlobalVars';
+import { server } from '../../../global/GlobalVars';
 
 import { View, Text, TextInput, Image, TouchableOpacity, FlatList, Modal } from "react-native"
 
 import { useState, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
-import styles from '../../global/GlobalStyles'
+import styles from '../../../global/GlobalStyles'
 
 export default function ListarUsuarios({navigation}) {
 
@@ -17,17 +17,14 @@ export default function ListarUsuarios({navigation}) {
 
     const [dados, setDados] = useState()
 
-
     useFocusEffect(
         React.useCallback(() => {
-            // Do something when the screen is focused
 
             list()
             return () => {
-                // Do something when the screen is unfocused
-                // Useful for cleanup functions
 
             };
+
         }, [])
     );
 
@@ -39,7 +36,6 @@ export default function ListarUsuarios({navigation}) {
     }, [confirmDel])
 
     const rem = async (idusuario) => {
-        //console.log('Entrou \n')
         try {
             console.log(`${server}/usuarios/rem`)
             const res = await axios.post(`${server}/usuarios/rem`,
@@ -58,13 +54,11 @@ export default function ListarUsuarios({navigation}) {
             }
 
         } catch (e) {
-            //showError(e)
             console.log(e)
         }
     }
 
     const list = async () => {
-        //console.log('Entrou \n')
         try {
             console.log(`${server}/usuarios/list`)
             const dt = await axios.post(`${server}/usuarios/list`,
@@ -72,11 +66,10 @@ export default function ListarUsuarios({navigation}) {
                 }
             )
 
-            console.log('OK-list')
+            console.log('OK-listEspaco')
             setDados(dt.data.res)
 
         } catch (e) {
-            //showError(e)
             console.log(e)
         }
     }
