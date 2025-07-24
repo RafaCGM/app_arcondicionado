@@ -8,7 +8,6 @@ import { useState } from "react";
 import styles from '../../global/GlobalStyles'
 
 export default function CadastroScreen({navigation}) {
-    const [idUsuario, setIdUsuario] = useState('')
     const [matricula, setMatricula] = useState('')
     const [nome, setNome] = useState('')
     const [email, setEmail] = useState('')
@@ -27,7 +26,7 @@ export default function CadastroScreen({navigation}) {
             if (res.data.num_erro == 0) {
 
                 alert(res.data.msg)
-                navigation.navigate('ListarUsuarios')
+                navigation.goBack()
             }
 
             if (res.data.num_erro == 1) {

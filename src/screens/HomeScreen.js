@@ -6,6 +6,7 @@ import styles from '../global/GlobalStyles'
 export default function HomeScreen({navigation}) {
     return (
         <View style={styles.container}>
+            
         </View>
     )
 }

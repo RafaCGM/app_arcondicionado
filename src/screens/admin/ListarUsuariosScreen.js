@@ -5,13 +5,11 @@ import { server } from '../../global/GlobalVars';
 import { View, Text, TextInput, Image, TouchableOpacity, FlatList, Modal } from "react-native"
 
 import { useState, useEffect } from "react";
-import { useNavigation } from '@react-navigation/native';
-import { useRoute } from '@react-navigation/native';
 import { useFocusEffect } from "@react-navigation/native";
 
 import styles from '../../global/GlobalStyles'
 
-export default function ListarUsuarios() {
+export default function ListarUsuarios({navigation}) {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [confirmDel, setConfirmDel] = useState(false);
@@ -19,8 +17,6 @@ export default function ListarUsuarios() {
 
     const [dados, setDados] = useState()
 
-    const navigation = useNavigation()
-    const route = useRoute()
 
     useFocusEffect(
         React.useCallback(() => {

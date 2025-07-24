@@ -5,20 +5,17 @@ import { server } from '../../global/GlobalVars';
 import { View, Text, TextInput, Image, TouchableOpacity } from "react-native"
 
 import { useState } from "react";
-import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import { useFocusEffect } from "@react-navigation/native";
 
 import styles from '../../global/GlobalStyles'
 
-export default function DadosUsuarioScreen() {
+export default function DadosUsuarioScreen({navigation}) {
     const [idusuario, setIdUsuario] = useState('')
     const [matricula, setMatricula] = useState('')
     const [nome, setNome] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
-    const navigation = useNavigation()
 
     const route = useRoute()
 
@@ -69,7 +66,7 @@ export default function DadosUsuarioScreen() {
             if (res.data.num_erro == 0) {
 
                 alert(res.data.msg)
-                navigation.navigate('ListarUsuarios')
+                navigation.goBack()
             }
 
             if (res.data.num_erro == 1) {
