@@ -12,6 +12,12 @@ export default function ConfigScreen({navigation}) {
             <TouchableOpacity onPress={() => navigation.navigate('Lista de Espaços')}>
                 <Text style={styles.button}>Listar Espaços</Text>
             </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Lista de Equipamentos')}>
+                <Text style={styles.button}>Listar Equipamentos</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Lista de Monitoramentos')}>
+                <Text style={styles.button}>Listar Monitoramentos</Text>
+            </TouchableOpacity>
         </View>
     )
 }
