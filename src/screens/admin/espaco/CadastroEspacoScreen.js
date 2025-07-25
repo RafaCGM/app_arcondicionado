@@ -13,8 +13,8 @@ export default function CadastroEspacoScreen({navigation}) {
 
     const create = async () => {
         try {
-            console.log(`${server}/equipamento/create`)
-            const res = await axios.post(`${server}/equipamento/create`, {
+            console.log(`${server}/espaco/create`)
+            const res = await axios.post(`${server}/espaco/create`, {
                 num_espaco: num_espaco,
                 usuarios_idusuario: usuarios_idusuario,
             })
