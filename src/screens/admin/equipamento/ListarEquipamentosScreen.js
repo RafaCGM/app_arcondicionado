@@ -7,9 +7,9 @@ import { View, Text, TextInput, Image, TouchableOpacity, FlatList, Modal } from 
 import { useState, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
-import styles from '../../../global/GlobalStyles'
+import styles from '../../../styles/adminStyles/equipamento/ListarEquipamentosScreen'
 
-export default function ListarEquipamentosScreen({navigation}) {
+export default function ListarEquipamentosScreen({ navigation }) {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [confirmDel, setConfirmDel] = useState(false);
@@ -29,7 +29,7 @@ export default function ListarEquipamentosScreen({navigation}) {
     );
 
     React.useEffect(() => {
-        if(confirmDel){
+        if (confirmDel) {
             rem(idEquipamentoRem)
             setConfirmDel(() => false)
         }
@@ -74,8 +74,9 @@ export default function ListarEquipamentosScreen({navigation}) {
     }
 
     const renderItem = ({ item }) => (
-        <View style={styles.userBox}>
-            <Text style={styles.userName}>Status do Equipamento: {item.status}</Text>
+        <View style={styles.equipamentoBox}>
+            <Text style={styles.equipamentoStatus}>Status do Equipamento: {item.status}</Text>
+
             <View style={styles.buttonRow}>
                 <TouchableOpacity
                     style={styles.editButton}
@@ -83,58 +84,67 @@ export default function ListarEquipamentosScreen({navigation}) {
                 >
                     <Text style={styles.buttonText}>Editar</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity
                     style={styles.deleteButton}
                     onPress={() => {
-                        setModalVisible(true)
-                        setIdEquipamentoRem(item.id_equipamento)
+                        setModalVisible(true);  // Abre o modal de confirmação
+                        setIdEquipamentoRem(item.id_equipamento);  // Define o ID do equipamento a ser excluído
                     }}
                 >
                     <Text style={styles.buttonText}>Excluir</Text>
                 </TouchableOpacity>
             </View>
         </View>
-    )
+    );
 
     const delRegistro = () => {
-        setModalVisible(() => false)
-        setConfirmDel(() => true)
-    }
+        setModalVisible(false);
+        setConfirmDel(true);
+    };
 
     const fecharModal = () => {
-        setModalVisible(() => false)
-        setConfirmDel(() => false)
-    }
+        setModalVisible(false);
+        setConfirmDel(false);
+    };
 
     return (
         <View style={styles.containerTop2}>
+            {/* Modal de Confirmação de Exclusão */}
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
-                >
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                            <View style={{ padding: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
-                                <Text style={{ fontSize: 20 }}>Você quer realmente excluir o registro?</Text>
-                                <TouchableOpacity onPress={delRegistro}>
-                                    <Text style={styles.button}>OK</Text>
-                                </TouchableOpacity>
-                                
-                                <TouchableOpacity onPress={fecharModal}>
-                                    <Text style={styles.button}>Cancel</Text>
-                                </TouchableOpacity>
-                            </View>
-
+                onRequestClose={fecharModal}
+            >
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContainer}>
+                        <Text style={styles.modalTitle}>Deseja excluir este equipamento?</Text>
+                        <View style={styles.modalButtonRow}>
+                            <TouchableOpacity style={styles.modalButton} onPress={fecharModal}>
+                                <Text style={styles.buttonText}>Cancelar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.modalButton} onPress={delRegistro}>
+                                <Text style={styles.buttonText}>Confirmar</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </Modal>
+                </View>
+            </Modal>
+
             <FlatList
                 data={dados}
-                keyExtractor={equipamento => equipamento.id_equipamento}
+                keyExtractor={equipamento => equipamento.id_equipamento.toString()}
                 renderItem={renderItem}
             />
-            <TouchableOpacity onPress={() => navigation.navigate('Cadastro de Equipamento')}>
-                <Text style={styles.button}>Cadastrar Equipamento</Text>
+
+            {/* Botão de Cadastro de Equipamento */}
+            <TouchableOpacity
+                style={styles.addButton}
+                onPress={() => navigation.navigate('Cadastro de Equipamento')}
+            >
+                <Text style={styles.buttonText}>Cadastrar Equipamento</Text>
             </TouchableOpacity>
         </View>
-    )
-}
+    );
+};

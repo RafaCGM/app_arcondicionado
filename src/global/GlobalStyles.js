@@ -1,144 +1,102 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 export default styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
     containerTop: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: "center"
+        paddingTop: 40, 
+        backgroundColor: '#f5f5f5',
+        position: 'relative',
+        paddingHorizontal: 20,  
     },
 
     containerbox: {
-        borderColor: '#4CAF50',
-        borderWidth: 2,
-        backgroundColor: '#ffffff',
+        flex: 1,
+        backgroundColor: '#fff',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
         padding: 20,
-        borderRadius: 18,
-        width: '85%',
-        shadowColor: '#4CAF50',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.15,
-        shadowRadius: 8,
-        elevation: 4,
+        marginTop: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: -2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        elevation: 5,
+        position: 'relative',
+        marginHorizontal: 20,
+        maxWidth: width * 0.9,  // Limita a largura do formulário a 90% da largura da tela
+        alignSelf: 'center',  
     },
 
     titulo1: {
-        fontSize: 28,
+        fontSize: width > 350 ? 28 : 24,  
         fontWeight: 'bold',
-        textAlign: "center",
-        color: '#388E3C',
-        marginBottom: 18,
+        color: '#333',
+        textAlign: 'center',
+        marginBottom: 15,
     },
 
     label: {
         fontSize: 16,
-        fontWeight: 'bold',
-        color: '#388E3C',
-        marginBottom: 4,
-        marginTop: 8,
+        color: '#333',
+        marginBottom: 8,
     },
 
     input: {
-        backgroundColor: '#f6fff6',
         borderWidth: 1,
-        borderColor: '#4CAF50',
-        fontSize: 18,
-        padding: 10,
-        marginVertical: 8,
-        borderRadius: 12,
-        shadowColor: '#4CAF50',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 2,
-        elevation: 2,
+        borderColor: '#ddd',
+        padding: width > 350 ? 12 : 10,  
+        borderRadius: 8,
+        marginBottom: 15,
+        fontSize: width > 350 ? 16 : 14,  
+        backgroundColor: '#f9f9f9',
     },
 
     button: {
-        textAlign: "center",
-        fontSize: 20,
-        fontWeight: 'bold',
-        backgroundColor: '#4CAF50',
-        color: 'white',
-        marginTop: 16,
-        marginBottom: 10,
-        padding: 12,
-        borderRadius: 16,
-        shadowColor: '#4CAF50',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 3,
-    },
-
-    card: {
-        color: 'white',
-        textAlign: "center",
-        fontSize: 30,
-        fontWeight: 'bold',
-        backgroundColor: '#5555FF',
-        marginTop: 10,
-        marginBottom: 10,
-        padding: 10,
-        paddingTop: 15,
-        paddingBottom: 15,
-        borderRadius: 10
-    },
-
-
-    //Pefumaria do listar usuarios
-    userBox: {
-        backgroundColor: '#fff',
-        borderRadius: 16,
-        marginVertical: 10,
-        marginHorizontal: 16,
-        padding: 18,
-        shadowColor: '#4CAF50',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.15,
-        shadowRadius: 6,
-        elevation: 3,
-    },
-    userName: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#388E3C',
-        marginBottom: 4,
-    },
-    userMatricula: {
-        fontSize: 16,
-        color: '#4CAF50',
-        marginBottom: 10,
-    },
-    buttonRow: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginTop: 8,
-    },
-    editButton: {
-        backgroundColor: '#4CAF50',
-        paddingVertical: 8,
-        paddingHorizontal: 18,
-        borderRadius: 12,
-        marginRight: 10,
-    },
-    deleteButton: {
-        backgroundColor: '#ff5252',
-        paddingVertical: 8,
-        paddingHorizontal: 18,
-        borderRadius: 12,
-    },
-    buttonText: {
+        backgroundColor: '#4caf50',
         color: '#fff',
+        fontSize: width > 350 ? 18 : 16,  
+        paddingVertical: 15,
+        borderRadius: 8,
+        textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 16,
+        marginTop: 20,
+        elevation: 5,
     },
 
+    waveContainer: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 'auto',
+        bottom: 0,
+        zIndex: -1,
+    },
+
+    wave: {
+        width: '100%',
+        height: height * 0.4,  
+        backgroundColor: '#4caf50',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+    },
+
+    waveSecond: {
+        width: '100%',
+        height: height * 0.2,  
+        backgroundColor: '#388e3c',
+        position: 'absolute',
+        bottom: -30,
+        left: 0,
+    },
+
+    inputShadow: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        elevation: 5,
+    },
 });

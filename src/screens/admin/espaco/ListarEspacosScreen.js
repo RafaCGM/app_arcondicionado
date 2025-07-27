@@ -7,9 +7,9 @@ import { View, Text, TextInput, Image, TouchableOpacity, FlatList, Modal } from 
 import { useState, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
-import styles from '../../../global/GlobalStyles'
+import styles from '../../../styles/adminStyles/espaco/ListarEspacosScreenStyles'
 
-export default function ListarEspacosScreen({navigation}) {
+export default function ListarEspacosScreen({ navigation }) {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [confirmDel, setConfirmDel] = useState(false);
@@ -29,7 +29,7 @@ export default function ListarEspacosScreen({navigation}) {
     );
 
     React.useEffect(() => {
-        if(confirmDel){
+        if (confirmDel) {
             rem(idEspacoRem)
             setConfirmDel(() => false)
         }
@@ -86,56 +86,62 @@ export default function ListarEspacosScreen({navigation}) {
                 <TouchableOpacity
                     style={styles.deleteButton}
                     onPress={() => {
-                        setModalVisible(true)
-                        setIdEspacoRem(item.id_espaco)
+                        setModalVisible(true);
+                        setIdEspacoRem(item.id_espaco);
                     }}
                 >
                     <Text style={styles.buttonText}>Excluir</Text>
                 </TouchableOpacity>
             </View>
         </View>
-    )
+    );
 
     const delRegistro = () => {
-        setModalVisible(() => false)
-        setConfirmDel(() => true)
-    }
+        setModalVisible(false);
+        setConfirmDel(true);
+    };
 
     const fecharModal = () => {
-        setModalVisible(() => false)
-        setConfirmDel(() => false)
-    }
+        setModalVisible(false);
+        setConfirmDel(false);
+    };
 
     return (
         <View style={styles.containerTop2}>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                >
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                            <View style={{ padding: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
-                                <Text style={{ fontSize: 20 }}>Você quer realmente excluir o registro?</Text>
-                                <TouchableOpacity onPress={delRegistro}>
-                                    <Text style={styles.button}>OK</Text>
-                                </TouchableOpacity>
-                                
-                                <TouchableOpacity onPress={fecharModal}>
-                                    <Text style={styles.button}>Cancel</Text>
-                                </TouchableOpacity>
+                    {/* Modal de Confirmação de Exclusão */}
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={fecharModal}
+                    >
+                        <View style={styles.modalOverlay}>
+                            <View style={styles.modalContainer}>
+                                <Text style={styles.modalTitle}>Deseja excluir este registro?</Text>
+                                <View style={styles.modalButtonRow}>
+                                    <TouchableOpacity style={styles.modalButton} onPress={fecharModal}>
+                                        <Text style={styles.buttonText}>Cancelar</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.modalButton} onPress={delRegistro}>
+                                        <Text style={styles.buttonText}>Confirmar</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
+                        </View>
+                    </Modal>
 
-                    </View>
-                </Modal>
             <FlatList
                 data={dados}
-                keyExtractor={espaco => espaco.id_espaco}
+                keyExtractor={espaco => espaco.id_espaco.toString()}
                 renderItem={renderItem}
             />
-            <TouchableOpacity onPress={() => navigation.navigate('Cadastro de Espaço')}>
-                <Text style={styles.button}>Cadastrar Espaço</Text>
+
+            <TouchableOpacity
+                style={styles.addButton}  
+                onPress={() => navigation.navigate('Cadastro de Espaço')}
+            >
+                <Text style={styles.addButtonText}>Cadastrar Espaço</Text>
             </TouchableOpacity>
         </View>
-    )
-
-}
+    );
+};

@@ -7,7 +7,7 @@ import { useState } from "react";
 
 import styles from '../../../global/GlobalStyles'
 
-export default function CadastroEquipamentoScreen({navigation}) {
+export default function CadastroEquipamentoScreen({ navigation }) {
     // const [status, setStatus] = useState('false')
     const [espaco_idespaco, setEspaco_idespaco] = useState('')
 
@@ -37,8 +37,13 @@ export default function CadastroEquipamentoScreen({navigation}) {
 
     return (
         <View style={styles.containerTop}>
+            {/* Container das ondas */}
+            <View style={styles.waveContainer}>
+                <View style={styles.wave}></View>
+                <View style={styles.waveSecond}></View>
+            </View>
+            
             <View style={styles.containerbox}>
-                
                 <Text style={styles.label}>Espaço onde o equipamento se encontra:</Text>
                 <TextInput style={styles.input}
                     value={espaco_idespaco}

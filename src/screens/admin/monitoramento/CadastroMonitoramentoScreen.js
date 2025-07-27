@@ -7,7 +7,7 @@ import { useState } from "react";
 
 import styles from '../../../global/GlobalStyles'
 
-export default function CadastroMonitoramentoScreen({navigation}) {
+export default function CadastroMonitoramentoScreen({ navigation }) {
     const [data_hora, setData_hora] = useState('')
     const [temperatura, setTemperatura] = useState('')
     const [equipamento_idequipamento, setEquipamento_idequipamento] = useState('')
@@ -39,6 +39,12 @@ export default function CadastroMonitoramentoScreen({navigation}) {
 
     return (
         <View style={styles.containerTop}>
+            {/* Container das ondas */}
+            <View style={styles.waveContainer}>
+                <View style={styles.wave}></View>
+                <View style={styles.waveSecond}></View>
+            </View>
+            
             <View style={styles.containerbox}>
                 <Text style={styles.titulo1}>Cadastro de Monitoramento</Text>
                 <Text style={styles.label}>Informe a data e hora:</Text>

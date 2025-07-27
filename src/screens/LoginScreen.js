@@ -5,9 +5,9 @@ import { server } from '../global/GlobalVars';
 import { View, Text, TextInput, ImageBackground, TouchableOpacity } from "react-native"
 import { useState } from "react";
 
-import styles from '../global/GlobalStyles'
+import styles from '../styles/LoginScreenStyles'
 
-export default function LoginScreen({navigation}) {
+export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('admin@gmail.com')
     const [password, setPassword] = useState('123456')
 
@@ -37,26 +37,31 @@ export default function LoginScreen({navigation}) {
 
     return (
         <View style={styles.container}>
+            <View style={styles.waveContainer}></View> {/* Primeira onda */}
+            <View style={styles.waveContainerBottom}></View> {/* Segunda onda */}
             <View style={styles.containerbox}>
-                <Text style={styles.titulo1}> Sistema de Ar condicionado </Text>
+                <Text style={styles.titulo1}>Sistema de Ar Condicionado</Text>
 
                 <Text style={styles.label}>E-mail:</Text>
-                <TextInput style={styles.input}
+                <TextInput
+                    style={styles.input}
                     value={email}
-                    onChangeText={(email => setEmail(email))}
+                    onChangeText={setEmail}
                 />
 
-                <Text style={styles.label}> Password: </Text>
-                <TextInput style={styles.input}
+                <Text style={styles.label}>Senha:</Text>
+                <TextInput
+                    style={styles.input}
                     value={password}
-                    onChangeText={password => setPassword(password)}
+                    onChangeText={setPassword}
                     secureTextEntry={true}
                 />
 
-                <TouchableOpacity onPress={signin}>
-                    <Text style={styles.button}>Login</Text>
-                </TouchableOpacity>
-
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity onPress={signin} style={styles.button}>
+                        <Text style={styles.buttonText}>Login</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     )

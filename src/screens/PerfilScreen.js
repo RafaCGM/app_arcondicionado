@@ -1,7 +1,7 @@
 import React from "react"
 import { View, Text, TextInput, Image, TouchableOpacity } from "react-native"
 
-import styles from '../global/GlobalStyles'
+import styles from '../styles/PerfilScreenStyles'
 
 export default function PerfilScreen({navigation}) {
     return (

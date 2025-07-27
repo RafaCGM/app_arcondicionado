@@ -7,7 +7,7 @@ import { useState } from "react";
 
 import styles from '../../../global/GlobalStyles'
 
-export default function CadastroScreen({navigation}) {
+export default function CadastroScreen({ navigation }) {
     const [matricula, setMatricula] = useState('')
     const [nome, setNome] = useState('')
     const [email, setEmail] = useState('')
@@ -41,33 +41,32 @@ export default function CadastroScreen({navigation}) {
 
     return (
         <View style={styles.containerTop}>
+            {/* Container das ondas */}
+            <View style={styles.waveContainer}>
+                <View style={styles.wave}></View>
+                <View style={styles.waveSecond}></View>
+            </View>
+
             <View style={styles.containerbox}>
                 <Text style={styles.titulo1}>Cadastro de Usuário</Text>
+
+                {/* Campos de entrada */}
                 <Text style={styles.label}>Matrícula:</Text>
-                <TextInput style={styles.input}
-                    value={matricula}
-                    onChangeText={(matricula => setMatricula(matricula))}
-                />
+                <TextInput style={styles.input} value={matricula} onChangeText={setMatricula} />
+
                 <Text style={styles.label}>Nome:</Text>
-                <TextInput style={styles.input}
-                    value={nome}
-                    onChangeText={(nome => setNome(nome))}
-                />
+                <TextInput style={styles.input} value={nome} onChangeText={setNome} />
+
                 <Text style={styles.label}>E-mail:</Text>
-                <TextInput style={styles.input}
-                    value={email}
-                    onChangeText={(email => setEmail(email))}
-                />
+                <TextInput style={styles.input} value={email} onChangeText={setEmail} />
+
                 <Text style={styles.label}>Senha:</Text>
-                <TextInput style={styles.input}
-                    value={password}
-                    onChangeText={password => setPassword(password)}
-                    secureTextEntry={true}
-                />
+                <TextInput style={styles.input} value={password} onChangeText={setPassword} secureTextEntry={true} />
+
                 <TouchableOpacity onPress={signup}>
                     <Text style={styles.button}>Cadastrar</Text>
                 </TouchableOpacity>
             </View>
         </View>
-    )
+    );
 }

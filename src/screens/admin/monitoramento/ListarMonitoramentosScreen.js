@@ -7,9 +7,9 @@ import { View, Text, TextInput, Image, TouchableOpacity, FlatList, Modal } from 
 import { useState, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
-import styles from '../../../global/GlobalStyles'
+import styles from '../../../styles/adminStyles/monitoramento/ListarMonitoramentosScreenStyles'
 
-export default function ListarMonitoramentosScreen({navigation}) {
+export default function ListarMonitoramentosScreen({ navigation }) {
 
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -30,7 +30,7 @@ export default function ListarMonitoramentosScreen({navigation}) {
     );
 
     React.useEffect(() => {
-        if(confirmDel){
+        if (confirmDel) {
             rem(idMonitoramentoRem)
             setConfirmDel(() => false)
         }
@@ -113,28 +113,32 @@ export default function ListarMonitoramentosScreen({navigation}) {
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
-                >
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                            <View style={{ padding: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
-                                <Text style={{ fontSize: 20 }}>Você quer realmente excluir o registro?</Text>
-                                <TouchableOpacity onPress={delRegistro}>
-                                    <Text style={styles.button}>OK</Text>
-                                </TouchableOpacity>
-                                
-                                <TouchableOpacity onPress={fecharModal}>
-                                    <Text style={styles.button}>Cancel</Text>
-                                </TouchableOpacity>
-                            </View>
+            >
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ padding: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+                        <Text style={{ fontSize: 20 }}>Você quer realmente excluir o registro?</Text>
+                        <TouchableOpacity onPress={delRegistro}>
+                            <Text style={styles.button}>OK</Text>
+                        </TouchableOpacity>
 
+                        <TouchableOpacity onPress={fecharModal}>
+                            <Text style={styles.button}>Cancel</Text>
+                        </TouchableOpacity>
                     </View>
-                </Modal>
+
+                </View>
+            </Modal>
             <FlatList
                 data={dados}
                 keyExtractor={monitoramento => monitoramento.id_monitoramento}
                 renderItem={renderItem}
             />
-            <TouchableOpacity onPress={() => navigation.navigate('Cadastro de Monitoramento')}>
-                <Text style={styles.button}>Cadastrar Monitoramento</Text>
+            
+            <TouchableOpacity
+                style={styles.addButton}
+                onPress={() => navigation.navigate('Cadastro de Monitoramento')}
+            >
+                <Text style={styles.buttonText}>Cadastrar Monitoramento</Text>
             </TouchableOpacity>
         </View>
     )
