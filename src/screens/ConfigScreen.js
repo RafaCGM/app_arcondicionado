@@ -1,7 +1,6 @@
-import React from "react"
-import { View, Text, TouchableOpacity } from "react-native"
-
-import styles from '../styles/ConfigScreenStyles'
+import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import styles from '../styles/ConfigScreenStyles';
 
 export default function ConfigScreen({ navigation }) {
     return (
@@ -25,7 +24,12 @@ export default function ConfigScreen({ navigation }) {
                 <TouchableOpacity onPress={() => navigation.navigate('Lista de Monitoramentos')} style={styles.button}>
                     <Text style={styles.buttonText}>Monitoramentos</Text>
                 </TouchableOpacity>
+
+                {/* Botão para navegar ao MQTT Teste */}
+                <TouchableOpacity onPress={() => navigation.navigate('MQTT Teste')} style={styles.button}>
+                    <Text style={styles.buttonText}>MQTT Teste</Text>
+                </TouchableOpacity>
             </View>
         </View>
-    )
+    );
 }

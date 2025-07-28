@@ -14,8 +14,6 @@ export default styles = StyleSheet.create({
     containerbox: {
         flex: 1,
         backgroundColor: '#fff',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
         padding: 20,
         marginTop: 20,
         shadowColor: '#000',
