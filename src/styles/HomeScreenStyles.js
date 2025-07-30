@@ -107,30 +107,31 @@ export default StyleSheet.create({
     fontWeight: "700",
   },
 
-  // Container da onda grande e imagem (fixado na parte inferior)
   bottomWaveContainer: {
     position: "absolute",
     bottom: 0,
     width: width,
-    height: height * 0.2,
+    height: height * 0.25,
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "flex-end",
     zIndex: 5,
   },
   bottomWave: {
     position: "absolute",
     bottom: 0,
-    width: width * 1.5,
-    height: height * 0.4,
+    width: width * 1.2,
+    height: height * 0.2,
     backgroundColor: colors.primary,
-    borderTopLeftRadius: width,
-    borderTopRightRadius: width,
-    transform: [{ scaleX: 1.5 }],
+    borderTopLeftRadius: width * 0.6,
+    borderTopRightRadius: width * 0.6,
+    transform: [{ scaleX: 1 }],
   },
   acImage: {
-    width: width * 0.6,
-    height: width * 0.5,
-    marginTop: -width * 0.25, // para ficar na metade da onda
+    width: width * 0.5,    
+    height: height * 0.25 * 0.7, 
+    resizeMode: "contain", 
+    position: "absolute",
+    bottom: height * 0.12,
     zIndex: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 8 },
@@ -138,3 +139,4 @@ export default StyleSheet.create({
     shadowRadius: 10,
   },
 });
+
