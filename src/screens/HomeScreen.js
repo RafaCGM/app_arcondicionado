@@ -5,25 +5,36 @@ import styles from '../styles/HomeScreenStyles';
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      {/* Onda superior */}
-      <View style={styles.waveTop} />
-   
-      <Text style={styles.title}>Bem-vindo ao TechAir</Text>
-      <Text style={styles.subtitle}>Sua experiência tecnológica começa aqui!</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('GeralScreen')} 
-      >
-        <Text style={styles.buttonText}>Explorar Agora</Text>
-      </TouchableOpacity>
+      {/* Ondas coloridas no topo */}
+      <View style={styles.waveLayer1} />
+      <View style={styles.waveLayer2} />
+      <View style={styles.waveLayer3} />
 
-      {/* Onda inferior */}
-      <View style={styles.waveBottom} />
+      {/* Conteúdo principal */}
+      <View style={styles.content}>
+        <Text style={styles.title}>Bem-vindo ao TechAir</Text>
+        <Text style={styles.subtitle}>
+          Sua experiência tecnológica começa aqui!
+        </Text>
 
-      <Image
-        source={require('../../assets/arcondicionado.png')} 
-        style={styles.acImage}
-      />
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate('Geral')}
+        >
+          <Text style={styles.buttonText}>Explorar Agora</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Onda grande na parte inferior */}
+      <View style={styles.bottomWaveContainer}>
+        <View style={styles.bottomWave} />
+        <Image
+          source={require('../../assets/arcondicionado.png')}
+          style={styles.acImage}
+          resizeMode="contain"
+        />
+      </View>
     </View>
   );
 }

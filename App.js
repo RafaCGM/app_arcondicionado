@@ -8,9 +8,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './src/screens/LoginScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import PerfilScreen from './src/screens/PerfilScreen';
-import GeralScreen from './src/screens/GeralScreen';
 import ConfigScreen from './src/screens/ConfigScreen';
 import MQTTTeste from './src/screens/mqtt/MQTTTeste';
+import GeralScreen from './src/screens/GeralScreen';
 
 // Telas CRUD
 import ListarUsuariosScreen from './src/screens/admin/usuarios/ListarUsuariosScreen';
