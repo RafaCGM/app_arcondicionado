@@ -19,13 +19,13 @@ export default function MQTTTeste() {
         client.onMessageArrived = (message) => {
             console.log('Message arrived:', message.payloadString, 'on topic:', message.destinationName);
             // Process the received message here
-            
+            console.log(message.payloadString)
         };
 
         client.connect({
             onSuccess: () => {
                 console.log('Connected to MQTT broker!');
-                client.subscribe('ifrncang/led'); // Subscribe to a topic
+                client.subscribe('ifrncang/temp/s84'); // Subscribe to a topic
             },
             onFailure: (error) => {
                 console.error('Connection failed:', error);
