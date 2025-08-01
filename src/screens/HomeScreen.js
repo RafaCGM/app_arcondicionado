@@ -35,6 +35,7 @@ export default function HomeScreen({ navigation }) {
           resizeMode="contain"
         />
       </View>
+      
     </View>
   );
 }

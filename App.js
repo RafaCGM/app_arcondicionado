@@ -1,5 +1,5 @@
 import React from 'react';
-import { Feather } from '@expo/vector-icons';  // Importando Feather
+import { Feather } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -56,7 +56,7 @@ function BottomTabsNavigator() {
         },
         tabBarActiveTintColor: 'green',
         tabBarInactiveTintColor: 'gray',
-        headerShown: false, // Desabilita o cabeçalho no BottomTabs
+        headerShown: false,
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
@@ -88,72 +88,72 @@ export default function App() {
         <Stack.Screen
           name="Cadastrar Usuário"
           component={CadastroScreen}
-          options={{ headerShown: true }} // Habilita o header para essa tela
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="Lista de Usuários"
           component={ListarUsuariosScreen}
-          options={{ headerShown: true }} // Habilita o header para essa tela
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="Dados do Usuário"
           component={DadosUsuarioScreen}
-          options={{ headerShown: true }} // Habilita o header para essa tela
+          options={{ headerShown: true }}
         />
 
         <Stack.Screen
           name="Lista de Espaços"
           component={ListarEspacosScreen}
-          options={{ headerShown: true }} // Habilita o header para essa tela
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="Cadastro de Espaço"
           component={CadastroEspacoScreen}
-          options={{ headerShown: true }} // Habilita o header para essa tela
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="Dados do Espaço"
           component={DadosEspacoScreen}
-          options={{ headerShown: true }} // Habilita o header para essa tela
+          options={{ headerShown: true }}
         />
 
         <Stack.Screen
           name="Lista de Equipamentos"
           component={ListarEquipamentosScreen}
-          options={{ headerShown: true }} // Habilita o header para essa tela
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="Cadastro de Equipamento"
           component={CadastroEquipamentoScreen}
-          options={{ headerShown: true }} // Habilita o header para essa tela
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="Dados do Equipamento"
           component={DadosEquipamentoScreen}
-          options={{ headerShown: true }} // Habilita o header para essa tela
+          options={{ headerShown: true }}
         />
 
         <Stack.Screen
           name="Lista de Monitoramentos"
           component={ListarMonitoramentosScreen}
-          options={{ headerShown: true }} // Habilita o header para essa tela
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="Cadastro de Monitoramento"
           component={CadastroMonitoramentoScreen}
-          options={{ headerShown: true }} // Habilita o header para essa tela
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="Dados do Monitoramento"
           component={DadosMonitoramentoScreen}
-          options={{ headerShown: true }} // Habilita o header para essa tela
+          options={{ headerShown: true }}
         />
 
         {/* Tela MQTTTeste */}
         <Stack.Screen
           name="MQTT Teste"
           component={MQTTTeste}
-          options={{ headerShown: true }} // Habilita o header para essa tela
+          options={{ headerShown: true }}
         />
 
       </Stack.Navigator>

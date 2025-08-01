@@ -37,8 +37,8 @@ export default function LoginScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <View style={styles.waveContainer}></View> {/* Primeira onda */}
-            <View style={styles.waveContainerBottom}></View> {/* Segunda onda */}
+            <View style={styles.waveContainer} />
+            <View style={styles.waveContainerBottom} /> 
             <View style={styles.containerbox}>
                 <Text style={styles.titulo1}>Sistema de Ar Condicionado</Text>
 
