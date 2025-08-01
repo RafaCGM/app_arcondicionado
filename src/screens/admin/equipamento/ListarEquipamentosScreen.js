@@ -63,6 +63,7 @@ export default function ListarEquipamentosScreen({ navigation }) {
             console.log(`${server}/equipamento/list`)
             const dt = await axios.post(`${server}/equipamento/list`,
                 {
+
                 }
             )
 
@@ -75,7 +76,9 @@ export default function ListarEquipamentosScreen({ navigation }) {
 
     const renderItem = ({ item }) => (
         <View style={styles.equipamentoBox}>
-            <Text style={styles.equipamentoStatus}>Status do Equipamento: {item.status}</Text>
+            <Text style={styles.equipamentoStatus}>Identificador do equipamento: {item.id_equipamento}</Text>
+            <Text style={styles.equipamentoStatus}>Sala atribuida ao equipamento: {item.espaco_num_espaco}</Text>
+            <Text style={styles.equipamentoStatus}>Status do equipamento: {item.status === 1 ? "Ligado" : "Desligado"}</Text>
 
             <View style={styles.buttonRow}>
                 <TouchableOpacity

@@ -12,8 +12,7 @@ import styles from '../../../global/GlobalStyles'
 
 export default function DadosEquipamentoScreen({navigation}) {
     const [id_equipamento, setId_equipamento] = useState('')
-    // const [status, setStatus] = useState('')
-    const [espaco_idespaco, setEspaco_idespaco] = useState('')
+    const [espaco_num_espaco, setEspaco_num_espaco] = useState('')
 
     const route = useRoute()
 
@@ -34,8 +33,7 @@ export default function DadosEquipamentoScreen({navigation}) {
                 id_equipamento: route.params.id_equipamento,
             })
             setId_equipamento(user.data.res.id_equipamento)
-            // setStatus(user.data.res.status)
-            setEspaco_idespaco(user.data.res.espaco_idespaco)
+            setEspaco_num_espaco(user.data.res.espaco_num_espaco)
 
         } catch (e) {
             console.log(e)
@@ -47,8 +45,7 @@ export default function DadosEquipamentoScreen({navigation}) {
             console.log(`${server}/equipamento/update`)
             const res = await axios.post(`${server}/equipamento/update`, {
                 id_equipamento: id_equipamento,
-                // status: status,
-                espaco_idespaco: espaco_idespaco,
+                espaco_num_espaco: espaco_num_espaco,
             })
 
             if (res.data.num_erro == 0) {
@@ -75,15 +72,10 @@ export default function DadosEquipamentoScreen({navigation}) {
                 <TextInput style={styles.input}
                     value={id_equipamento}
                 />
-                {/* <Text style={styles.label}>Status do Equipamento:</Text>
+                <Text style={styles.label}>Número da sala:</Text>
                 <TextInput style={styles.input}
-                    value={status}
-                    onChangeText={(status => setStatus(status))}
-                /> */}
-                <Text style={styles.label}>Id do Espaço:</Text>
-                <TextInput style={styles.input}
-                    value={espaco_idespaco}
-                    onChangeText={(espaco_idespaco => setEspaco_idespaco(espaco_idespaco))}
+                    value={espaco_num_espaco}
+                    onChangeText={(espaco_num_espaco => setEspaco_num_espaco(espaco_num_espaco))}
                 />
                 <TouchableOpacity
                     onPress={update}
