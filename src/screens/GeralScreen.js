@@ -36,35 +36,23 @@ export default function GeralScreen({ navigation }) {
   );
 
   useEffect(() => {
-
-    let tempTmp = new Array()
-    console.log(salas)
-    salas.map((e, i) => {
-      console.log(e.nome)
-      console.log(topic)
-      console.log('ifrncang/temp/s' + e.nome)
-      if (topic == 'ifrncang/temp/s' + e.nome) {
-        tempTmp.push({
-          'nome': e.nome,
-          'temperatura': msg,
-          'ligado': e.ligado,
-          'conectado': e.conectado,
-        })
-      } else {
-        tempTmp.push({
-          'nome': e.nome,
-          'temperatura': e.temperatura,
-          'ligado': e.ligado,
-          'conectado': e.conectado,
-        })
-      }
+    // Só atualiza a temperatura se o tópico NÃO for ac/control
+    if (topic && topic.startsWith('ifrncang/temp/')) {
+      let tempTmp = [];
+      salas.forEach((e) => {
+        if (topic === 'ifrncang/temp/' + e.num_espaco) {
+          tempTmp.push({
+            ...e,
+            temperatura: msg // mantém todos os campos, só muda temperatura
+          });
+        } else {
+          tempTmp.push({ ...e });
+        }
+      });
+      setSalas(tempTmp);
     }
-    )
-    console.log("Dados de Temp")
-    console.log(tempTmp)
-    setSalas(tempTmp)
-
-  }, [msg]);
+    // NÃO faça nada se o tópico for "ac/control"
+  }, [msg, topic]);
 
 
 
@@ -76,9 +64,21 @@ export default function GeralScreen({ navigation }) {
     };
 
     client.onMessageArrived = (message) => {
-      console.log('Message arrived:', message.payloadString, 'on topic:', message.destinationName);
       setTopic(message.destinationName)
       setMsg(message.payloadString)
+
+      // Controle individual
+      if (message.destinationName.startsWith("ac/control/")) {
+        const num_espaco = message.destinationName.split("/")[2];
+        setSalas((prevSalas) =>
+          prevSalas.map((sala) =>
+            sala.num_espaco === num_espaco
+              ? { ...sala, ligado: message.payloadString === "on" }
+              : sala
+          )
+        );
+      }
+      // ... (temperatura permanece igual)
     };
 
     client.connect({
@@ -102,24 +102,31 @@ export default function GeralScreen({ navigation }) {
     try {
       const dt = await axios.post(`${server}/espaco/list`, {});
 
-      const listaSalas = dt.data.res.map(espaco => ({
-        nome: `${espaco.num_espaco}`,
-        temperatura: temp,
-        ligado: true,
-        conectado: true,
-      }));
+      const listaSalas = dt.data.res.map(espaco => {
+        // Procura se já existe essa sala no estado atual para manter o valor de 'ligado'
+        const salaAtual = salas.find(s => s.num_espaco === `${espaco.num_espaco}`);
+        return {
+          num_espaco: `${espaco.num_espaco}`,
+          temperatura: temp,
+          ligado: salaAtual ? salaAtual.ligado : false, // Mantém o valor atual ou inicia como desligado
+          conectado: true,
+        };
+      });
 
       setSalas(listaSalas);
 
       listaSalas.forEach(sala => {
-        client.subscribe(`ifrncang/temp/s${sala.nome}`);
+        client.subscribe(`ifrncang/temp/${sala.num_espaco}`);
+        client.subscribe(`ac/control/${sala.num_espaco}`);
       });
+
+      client.subscribe(`ac/control`);
 
     } catch (e) {
       console.log(e);
     }
   };
-
+  
   Animated.loop(
     Animated.timing(ondaAnim, {
       toValue: 1,
@@ -128,12 +135,19 @@ export default function GeralScreen({ navigation }) {
       useNativeDriver: true,
     })
   ).start()
-
+  
   const translateX = ondaAnim.interpolate({
     inputRange: [0, 1],
     outputRange: [0, -200],
   })
-
+  
+  const togglePower = (sala) => {
+    const comando = sala.ligado ? "off" : "on";
+    const mqttMessage = new Paho.Message(comando);
+    mqttMessage.destinationName = `ac/control/${sala.num_espaco}`;
+    client.send(mqttMessage);
+  };
+  
   let index = 0
   return (
     <ScrollView style={styles.container}>
@@ -151,7 +165,7 @@ export default function GeralScreen({ navigation }) {
 
       <FlatList
         data={salas}
-        keyExtractor={espaco => espaco.nome}
+        keyExtractor={espaco => espaco.num_espaco}
         renderItem={({ item }) => {
 
           return (
@@ -161,7 +175,7 @@ export default function GeralScreen({ navigation }) {
               />
               <View style={styles.cardHeader}>
                 <Feather name="monitor" size={20} color="#4B9CD3" />
-                <Text style={styles.salaNome}>{item.nome}</Text>
+                <Text style={styles.salaNome}>{item.num_espaco}</Text>
                 <Feather
                   name={item.conectado ? "wifi" : "wifi-off"}
                   size={18}
@@ -176,17 +190,20 @@ export default function GeralScreen({ navigation }) {
               </View>
 
               <View style={styles.buttonRow}>
-                <TouchableOpacity style={styles.controlButton} onPress={() => ajustarTemperatura(index, -1)}>
+                {/* <TouchableOpacity style={styles.controlButton} onPress={() => ajustarTemperatura(index, -1)}>
                   <Feather name="minus" size={18} color="#fff" />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.controlButton} onPress={() => ajustarTemperatura(index, 1)}>
                   <Feather name="plus" size={18} color="#fff" />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity
-                  style={[styles.powerButton, { backgroundColor: item.ligado ? "#34D399" : "#EF4444" }]}
-                  onPress={() => toggleAr(index)}
+                  style={[
+                    styles.powerButton,
+                    { backgroundColor: item.ligado ? "#34D399" : "#EF4444" }
+                  ]}
+                  onPress={() => togglePower(item)}
                 >
-                  <Feather name={item.ligado ? "power" : "power"} size={20} color="#fff" />
+                  <Feather name="power" size={20} color="#fff" />
                   <Text style={styles.powerText}>{item.ligado ? "Ligado" : "Desligado"}</Text>
                 </TouchableOpacity>
               </View>
@@ -200,3 +217,4 @@ export default function GeralScreen({ navigation }) {
     </ScrollView>
   )
 }
+
