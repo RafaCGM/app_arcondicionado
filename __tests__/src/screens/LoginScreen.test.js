@@ -6,7 +6,7 @@ jest.mock('axios', () => ({
     post: jest.fn(() => Promise.resolve({ data: { num_erro: 0 } }))
 }));
 
-// 1) Verifica se os campos estão na tela
+// 1) Verifica se os campos Email, senha e login estão na tela
 test('email e senha estão presentes :D', () => {
     const { getByText } = render(<LoginScreen navigation={{ navigate: jest.fn() }} />);
     expect(getByText('E-mail:')).toBeTruthy();
@@ -21,7 +21,7 @@ test('preenche os campos de e-mail e senha corretamente :D', () => {
     expect(getByDisplayValue('123456')).toBeTruthy();
 });
 
-// 3) Simula clique no botão e navegação para a tela Main
+// 3) Simula clique no botão e navegação para a tela Main/HomeScreen
 test('botão de login navega para a tela Main', async () => {
     const mockNavigate = jest.fn();
     const { getByText } = render(<LoginScreen navigation={{ navigate: mockNavigate }} />);
