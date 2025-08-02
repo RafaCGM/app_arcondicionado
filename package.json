@@ -37,8 +37,12 @@
     "react-native-web": "^0.20.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0",
-    "jest": "^30.0.5"
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
+    "babel-jest": "^30.0.5",
+    "jest": "^30.0.5",
+    "metro-react-native-babel-preset": "^0.77.0"
   },
   "private": true
 }
