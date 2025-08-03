@@ -27,7 +27,7 @@ export default function PerfilScreen({ navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Dashboard</Text>
+      <Text testID="dash" style={styles.title}>Dashboard</Text>
 
       <View style={styles.boxContainer}>
         <View style={styles.box}>

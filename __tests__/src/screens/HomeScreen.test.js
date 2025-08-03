@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react-native';
 import HomeScreen from '../../../src/screens/HomeScreen';
 
 //Obs: Se quiser ver todas as mensagens de teste sendo exibidas, rode esse comando "yarn test --verbose"
@@ -22,4 +22,5 @@ test('Botão "Explorar Agora" navega para a tela Geral', async () => {
     await waitFor(() => {
         expect(mockNavigate).toHaveBeenCalledWith('Geral');
     });
+
 });
