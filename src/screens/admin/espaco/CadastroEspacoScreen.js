@@ -46,16 +46,20 @@ export default function CadastroEspacoScreen({ navigation }) {
             <View style={styles.containerbox}>
                 <Text style={styles.titulo1}>Cadastro de Espaço</Text>
                 <Text style={styles.label}>Informe o número da sala:</Text>
-                <TextInput style={styles.input}
+                <TextInput
+                    testID='numEspacoInput' 
+                    style={styles.input}
                     value={num_espaco}
                     onChangeText={(num_espaco => setNum_espaco(num_espaco))}
                 />
                 <Text style={styles.label}>ID do usuário responsável:</Text>
-                <TextInput style={styles.input}
+                <TextInput 
+                    testID='usuarioIdInput'
+                    style={styles.input}
                     value={usuarios_idusuario}
                     onChangeText={(usuarios_idusuario => setUsuarios_idusuario(usuarios_idusuario))}
                 />
-                <TouchableOpacity onPress={create}>
+                <TouchableOpacity onPress={create} testID='cadastrarButton'>
                     <Text style={styles.button}>Cadastrar</Text>
                 </TouchableOpacity>
             </View>
