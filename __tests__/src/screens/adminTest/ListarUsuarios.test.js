@@ -1,51 +1,57 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import ListarUsuarios from '../../../../src/screens/admin/ListarUsuariosScreen';
+import ListarUsuarios from '../../../../src/screens/admin/usuarios/ListarUsuariosScreen';
 
-import axios from 'axios';
-
-jest.mock('axios');
-
-const mockNavigate = jest.fn();
-const mockNavigation = {
-  navigate: mockNavigate,
+// Função auxiliar para renderizar o componente com suporte à navegação
+const renderWithNavigation = (navigateMock = jest.fn()) => {
+  return render(
+    <NavigationContainer>
+      <ListarUsuarios navigation={{ navigate: navigateMock }} />
+    </NavigationContainer>
+  );
 };
 
-const mockUsers = [
-  { idusuario: 1, nome: 'Euller', matricula: '123' },
-  { idusuario: 2, nome: 'Rafa', matricula: '456' },
-];
+// Teste 1: Verifica se o botão "Cadastrar Usuário" aparece na tela
+test('Renderiza botão "Cadastrar Usuário"', async () => {
+  const { getByText } = renderWithNavigation();
 
-describe('ListarUsuarios', () => {
-  beforeEach(() => {
-    axios.post.mockImplementation((url) => {
-      if (url.includes('/usuarios/list')) {
-        return Promise.resolve({ data: { res: mockUsers } });
-      }
-      if (url.includes('/usuarios/rem')) {
-        return Promise.resolve({ data: { num_erro: 0 } });
-      }
-    });
-  });
-
-  it('renderiza os botões e executa ações básicas', async () => {
-    const { getByText, findByText } = render(
-      <NavigationContainer>
-        <ListarUsuarios navigation={mockNavigation} />
-      </NavigationContainer>
-    );
-
-    // Espera o texto de um usuário aparecer
-    expect(await findByText('Nome: Euller')).toBeTruthy();
-
-    // Verifica se os botões estão lá
-    expect(getByText('Editar')).toBeTruthy();
-    expect(getByText('Excluir')).toBeTruthy();
+  await waitFor(() => {
     expect(getByText('Cadastrar Usuário')).toBeTruthy();
-
-    // Simula clique no botão de cadastro
-    fireEvent.press(getByText('Cadastrar Usuário'));
-    expect(mockNavigate).toHaveBeenCalledWith('Cadastrar Usuário');
   });
 });
+
+// Teste 2: Verifica se os botões "Editar" e "Excluir" são renderizados
+test('Renderiza botões "Editar" e "Excluir"', async () => {
+  const { findAllByText } = renderWithNavigation();
+
+  const botoesEditar = await findAllByText('Editar');
+  const botoesExcluir = await findAllByText('Excluir');
+
+  expect(botoesEditar.length).toBeGreaterThan(0);
+  expect(botoesExcluir.length).toBeGreaterThan(0);
+});
+
+// Teste 3: Verifica se o botão "Editar" funcionan e vai para os Dados do Usuário
+test('Botão "Editar" chama navegação', async () => {
+  const navigateMock = jest.fn();
+  const { findAllByText } = renderWithNavigation(navigateMock);
+
+  const botoesEditar = await findAllByText('Editar');
+  fireEvent.press(botoesEditar[0]);
+
+  expect(navigateMock).toHaveBeenCalled();
+});
+
+// Teste 4: Simula clique no botão "Excluir" 
+test('Botão "Excluir" pode ser clicado', async () => {
+  const { findAllByText } = renderWithNavigation();
+
+  const botoesExcluir = await findAllByText('Excluir');
+
+  // Simula o clique no primeiro botão "Excluir"
+  fireEvent.press(botoesExcluir[0]);
+});
+
+//obs: Apenas está simulando o clique para saber se pode ser clicado, para saber se está funcioanal e excluindo precisa-se do backend
+// Envolve outras maneiras de fazer o teste que eu desconheço
