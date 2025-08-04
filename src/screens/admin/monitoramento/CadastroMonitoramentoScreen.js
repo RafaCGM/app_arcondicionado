@@ -44,20 +44,24 @@ export default function CadastroMonitoramentoScreen({ navigation }) {
                 <View style={styles.wave}></View>
                 <View style={styles.waveSecond}></View>
             </View>
-            
+
             <View style={styles.containerbox}>
                 <Text style={styles.titulo1}>Cadastro de Monitoramento</Text>
                 <Text style={styles.label}>Informe a data e hora:</Text>
-                <TextInput style={styles.input}
+                <TextInput
+                    testID='dataHoraInput'
+                    style={styles.input}
                     value={data_hora}
                     onChangeText={(data_hora => setData_hora(data_hora))}
                 />
                 <Text style={styles.label}>ID do Monitoramento:</Text>
-                <TextInput style={styles.input}
+                <TextInput
+                    testID='equipamentoIdInput'
+                    style={styles.input}
                     value={equipamento_idequipamento}
                     onChangeText={(equipamento_idequipamento => setEquipamento_idequipamento(equipamento_idequipamento))}
                 />
-                <TouchableOpacity onPress={create}>
+                <TouchableOpacity onPress={create} testID='cadastrarButton'>
                     <Text style={styles.button}>Cadastrar</Text>
                 </TouchableOpacity>
             </View>

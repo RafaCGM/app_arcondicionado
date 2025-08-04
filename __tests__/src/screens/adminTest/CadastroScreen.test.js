@@ -64,10 +64,10 @@ test('Renderiza o botão de cadastro', () => {
 
 });
 
-//Obs, o teste desse arquivo dará um aviso, não um erro. Pesquisei
+//Obs: o teste desse arquivo dará um aviso, não um erro. Pesquisei
 //e o que encontrei foi a seguinte explçicação:
 
 // O aviso é apenas informativo e ocorre porque a função alert foi chamada dentro de
 //uma função assíncrona (signup) após o Jest ter terminado a execução dos testes.
-//Isso é um comportamento esperado quando não se 
+//Isso é um comportamento esperado quando não se
 // mocka o alert e quando há chamadas assíncronas.
