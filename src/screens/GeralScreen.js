@@ -17,6 +17,7 @@ export default function GeralScreen({ navigation }) {
   const [topic, setTopic] = useState()
 
   const [temp, setTemp] = useState(0);
+  const [umid, setUmid] = useState(0);
   const [salas, setSalas] = useState([]);
   const [alertas, setAlertas] = useState([]);
 
@@ -36,14 +37,13 @@ export default function GeralScreen({ navigation }) {
   );
 
   useEffect(() => {
-    // Só atualiza a temperatura se o tópico NÃO for ac/control
     if (topic && topic.startsWith('ifrncang/temp/')) {
       let tempTmp = [];
       salas.forEach((e) => {
         if (topic === 'ifrncang/temp/' + e.num_espaco) {
           tempTmp.push({
             ...e,
-            temperatura: msg // mantém todos os campos, só muda temperatura
+            temperatura: msg
           });
         } else {
           tempTmp.push({ ...e });
@@ -51,10 +51,19 @@ export default function GeralScreen({ navigation }) {
       });
       setSalas(tempTmp);
     }
-    // NÃO faça nada se o tópico for "ac/control"
   }, [msg, topic]);
 
-
+  useEffect(() => {
+    if (topic && topic.startsWith('ifrncang/umid/')) {
+      setSalas(prevSalas =>
+        prevSalas.map(e =>
+          topic === 'ifrncang/umid/' + e.num_espaco
+            ? { ...e, umidade: msg }
+            : e
+        )
+      );
+    }
+  }, [msg, topic]);
 
   useEffect(() => {
     client.onConnectionLost = (responseObject) => {
@@ -67,7 +76,6 @@ export default function GeralScreen({ navigation }) {
       setTopic(message.destinationName)
       setMsg(message.payloadString)
 
-      // Controle individual
       if (message.destinationName.startsWith("ac/control/")) {
         const num_espaco = message.destinationName.split("/")[2];
         setSalas((prevSalas) =>
@@ -78,7 +86,7 @@ export default function GeralScreen({ navigation }) {
           )
         );
       }
-      // ... (temperatura permanece igual)
+
     };
 
     client.connect({
@@ -103,12 +111,12 @@ export default function GeralScreen({ navigation }) {
       const dt = await axios.post(`${server}/espaco/list`, {});
 
       const listaSalas = dt.data.res.map(espaco => {
-        // Procura se já existe essa sala no estado atual para manter o valor de 'ligado'
         const salaAtual = salas.find(s => s.num_espaco === `${espaco.num_espaco}`);
         return {
           num_espaco: `${espaco.num_espaco}`,
           temperatura: temp,
-          ligado: salaAtual ? salaAtual.ligado : false, // Mantém o valor atual ou inicia como desligado
+          umidade: umid,
+          ligado: salaAtual ? salaAtual.ligado : false,
           conectado: true,
         };
       });
@@ -117,16 +125,15 @@ export default function GeralScreen({ navigation }) {
 
       listaSalas.forEach(sala => {
         client.subscribe(`ifrncang/temp/${sala.num_espaco}`);
+        client.subscribe(`ifrncang/umid/${sala.num_espaco}`);
         client.subscribe(`ac/control/${sala.num_espaco}`);
       });
-
-      client.subscribe(`ac/control`);
 
     } catch (e) {
       console.log(e);
     }
   };
-  
+
   Animated.loop(
     Animated.timing(ondaAnim, {
       toValue: 1,
@@ -135,20 +142,32 @@ export default function GeralScreen({ navigation }) {
       useNativeDriver: true,
     })
   ).start()
-  
+
   const translateX = ondaAnim.interpolate({
     inputRange: [0, 1],
     outputRange: [0, -200],
   })
-  
+
   const togglePower = (sala) => {
     const comando = sala.ligado ? "off" : "on";
     const mqttMessage = new Paho.Message(comando);
     mqttMessage.destinationName = `ac/control/${sala.num_espaco}`;
     client.send(mqttMessage);
   };
-  
-  let index = 0
+
+  const aumentar = (sala) => {
+    const mqttMessage = new Paho.Message("up");
+    mqttMessage.destinationName = `ac/control/${sala.num_espaco}`;
+    client.send(mqttMessage);
+  };
+
+  const diminuir = (sala) => {
+    const mqttMessage = new Paho.Message("down");
+    mqttMessage.destinationName = `ac/control/${sala.num_espaco}`;
+    client.send(mqttMessage);
+  };
+
+  let index = 0;
   return (
     <ScrollView style={styles.container}>
 
@@ -162,7 +181,7 @@ export default function GeralScreen({ navigation }) {
           </View>
         </View>
       )}
-      <FlatList 
+      <FlatList
         data={salas}
         keyExtractor={espaco => espaco.num_espaco}
         renderItem={({ item }) => {
@@ -186,15 +205,23 @@ export default function GeralScreen({ navigation }) {
               <View style={styles.statusRow}>
                 <Feather name="thermometer" size={24} color="#1E90FF" />
                 <Text style={styles.temp}>{item.temperatura}°C</Text>
+                <Feather name="droplet" size={24} color="#1E90FF" />
+                <Text style={styles.temp}>{item.umidade}%</Text>
               </View>
 
               <View style={styles.buttonRow}>
-                {/* <TouchableOpacity style={styles.controlButton} onPress={() => ajustarTemperatura(index, -1)}>
+                <TouchableOpacity
+                  style={styles.controlButton}
+                  onPress={() => diminuir(item)}
+                >
                   <Feather name="minus" size={18} color="#fff" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.controlButton} onPress={() => ajustarTemperatura(index, 1)}>
+                <TouchableOpacity
+                  style={styles.controlButton}
+                  onPress={() => aumentar(item)}
+                >
                   <Feather name="plus" size={18} color="#fff" />
-                </TouchableOpacity> */}
+                </TouchableOpacity>
                 <TouchableOpacity
                   style={[
                     styles.powerButton,
