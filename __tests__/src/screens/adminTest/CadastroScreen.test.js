@@ -1,7 +1,7 @@
 import { render, fireEvent } from '@testing-library/react-native';
 import CadastroScreen from '../../../../src/screens/admin/usuarios/CadastroScreen';
 
-// Testa para verificar se a tela de cadastro renderiza corretamente viu :D
+// Testa para verificar se a tela de cadastro renderiza corretamente
 test('Renderiza a tela de cadastro', () => {
   const { getByText } = render(<CadastroScreen navigation={{ goBack: jest.fn() }} />);
 

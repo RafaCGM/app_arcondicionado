@@ -162,8 +162,7 @@ export default function GeralScreen({ navigation }) {
           </View>
         </View>
       )}
-
-      <FlatList
+      <FlatList 
         data={salas}
         keyExtractor={espaco => espaco.num_espaco}
         renderItem={({ item }) => {
