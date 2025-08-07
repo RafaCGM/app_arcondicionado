@@ -64,6 +64,15 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 15,
+    gap: 30
+  },
+  statusIcon1: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  statusIcon2: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   temp: {
     fontSize: 26,

@@ -119,11 +119,11 @@ export default function ListarEspacosScreen({ navigation }) {
                             <View style={styles.modalContainer}>
                                 <Text style={styles.modalTitle}>Deseja excluir este registro?</Text>
                                 <View style={styles.modalButtonRow}>
-                                    <TouchableOpacity style={styles.modalButton} onPress={fecharModal}>
-                                        <Text style={styles.buttonText}>Cancelar</Text>
-                                    </TouchableOpacity>
                                     <TouchableOpacity style={styles.modalButton} onPress={delRegistro}>
                                         <Text style={styles.buttonText}>Confirmar</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.modalButton} onPress={fecharModal}>
+                                        <Text style={styles.buttonText}>Cancelar</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>

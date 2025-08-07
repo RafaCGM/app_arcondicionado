@@ -13,18 +13,6 @@ export default function PerfilScreen({ navigation }) {
     datasets: [{ data: [22, 24, 23, 25, 26, 24], strokeWidth: 2 }],
   };
 
-  const dadosEnergia = {
-    labels: ["6h", "9h", "12h", "15h", "18h", "21h"],
-    datasets: [
-      {
-        data: [30, 45, 40, 60, 55, 70],
-        colors: [
-          (opacity = 1) => `rgba(76, 175, 80, ${opacity})`,
-        ],
-      },
-    ],
-  };
-
   return (
     <ScrollView style={styles.container}>
       <Text testID="dash" style={styles.title}>Dashboard</Text>

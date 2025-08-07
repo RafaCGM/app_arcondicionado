@@ -3,13 +3,13 @@ import { Feather } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { TouchableOpacity, Text } from 'react-native';
 
 // Telas gerais
 import LoginScreen from './src/screens/LoginScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import PerfilScreen from './src/screens/PerfilScreen';
 import ConfigScreen from './src/screens/ConfigScreen';
-import MQTTTeste from './src/screens/mqtt/MQTTTeste';
 import GeralScreen from './src/screens/GeralScreen';
 
 // Telas CRUD
@@ -59,7 +59,7 @@ function BottomTabsNavigator() {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
+      {/* <Tab.Screen name="Home" component={HomeScreen} /> */}
       <Tab.Screen name="Geral" component={GeralScreen} />
       <Tab.Screen name="Perfil" component={PerfilScreen} />
       <Tab.Screen name="Configurações" component={ConfigScreen} />
@@ -70,91 +70,29 @@ function BottomTabsNavigator() {
 export default function App() {
   return (
     <NavigationContainer>
+
       <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
 
-        {/* Telas Gerais */}
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Main"
-          component={BottomTabsNavigator}
-          options={{ headerShown: false }}
-        />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Main" component={BottomTabsNavigator} />
 
         {/* Telas CRUD */}
-        <Stack.Screen
-          name="Cadastrar Usuário"
-          component={CadastroScreen}
-          options={{ headerShown: true }}
-        />
-        <Stack.Screen
-          name="Lista de Usuários"
-          component={ListarUsuariosScreen}
-          options={{ headerShown: true }}
-        />
-        <Stack.Screen
-          name="Dados do Usuário"
-          component={DadosUsuarioScreen}
-          options={{ headerShown: true }}
-        />
+        <Stack.Screen name="Cadastrar Usuário" component={CadastroScreen} options={{ headerShown: true }} />
+        <Stack.Screen name="Lista de Usuários" component={ListarUsuariosScreen} options={{ headerShown: true }} />
+        <Stack.Screen name="Dados do Usuário" component={DadosUsuarioScreen} options={{ headerShown: true }} />
 
-        <Stack.Screen
-          name="Lista de Espaços"
-          component={ListarEspacosScreen}
-          options={{ headerShown: true }}
-        />
-        <Stack.Screen
-          name="Cadastro de Espaço"
-          component={CadastroEspacoScreen}
-          options={{ headerShown: true }}
-        />
-        <Stack.Screen
-          name="Dados do Espaço"
-          component={DadosEspacoScreen}
-          options={{ headerShown: true }}
-        />
+        <Stack.Screen name="Lista de Espaços" component={ListarEspacosScreen} options={{ headerShown: true }} />
+        <Stack.Screen name="Cadastro de Espaço" component={CadastroEspacoScreen} options={{ headerShown: true }} />
+        <Stack.Screen name="Dados do Espaço" component={DadosEspacoScreen} options={{ headerShown: true }} />
 
-        <Stack.Screen
-          name="Lista de Equipamentos"
-          component={ListarEquipamentosScreen}
-          options={{ headerShown: true }}
-        />
-        <Stack.Screen
-          name="Cadastro de Equipamento"
-          component={CadastroEquipamentoScreen}
-          options={{ headerShown: true }}
-        />
-        <Stack.Screen
-          name="Dados do Equipamento"
-          component={DadosEquipamentoScreen}
-          options={{ headerShown: true }}
-        />
+        <Stack.Screen name="Lista de Equipamentos" component={ListarEquipamentosScreen} options={{ headerShown: true }} />
+        <Stack.Screen name="Cadastro de Equipamento" component={CadastroEquipamentoScreen} options={{ headerShown: true }} />
+        <Stack.Screen name="Dados do Equipamento" component={DadosEquipamentoScreen} options={{ headerShown: true }} />
 
-        <Stack.Screen
-          name="Lista de Monitoramentos"
-          component={ListarMonitoramentosScreen}
-          options={{ headerShown: true }}
-        />
-        <Stack.Screen
-          name="Cadastro de Monitoramento"
-          component={CadastroMonitoramentoScreen}
-          options={{ headerShown: true }}
-        />
-        <Stack.Screen
-          name="Dados do Monitoramento"
-          component={DadosMonitoramentoScreen}
-          options={{ headerShown: true }}
-        />
-
-        {/* Tela MQTTTeste */}
-        <Stack.Screen
-          name="MQTT Teste"
-          component={MQTTTeste}
-          options={{ headerShown: true }}
-        />
+        <Stack.Screen name="Lista de Monitoramentos" component={ListarMonitoramentosScreen} options={{ headerShown: true }} />
+        <Stack.Screen name="Cadastro de Monitoramento" component={CadastroMonitoramentoScreen} options={{ headerShown: true }} />
+        <Stack.Screen name="Dados do Monitoramento" component={DadosMonitoramentoScreen} options={{ headerShown: true }} />
 
       </Stack.Navigator>
     </NavigationContainer>

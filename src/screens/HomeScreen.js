@@ -20,7 +20,7 @@ export default function HomeScreen({ navigation }) {
         <TouchableOpacity
           style={styles.button}
           activeOpacity={0.8}
-          onPress={() => navigation.navigate('Geral')}
+          onPress={() => navigation.navigate('Main')}
         >
           <Text style={styles.buttonText}>Explorar Agora</Text>
         </TouchableOpacity>

@@ -3,13 +3,13 @@ import axios from 'axios'
 import { server } from '../global/GlobalVars';
 
 import React, { useState, useEffect } from "react"
-import { View, Text, TouchableOpacity, FlatList, ScrollView, Animated, Easing } from "react-native"
+import { View, Text, TouchableOpacity, FlatList, ScrollView } from "react-native"
 import { useFocusEffect } from "@react-navigation/native";
 
 import { Feather } from "@expo/vector-icons"
 import styles from "../styles/GeralScreenStyles"
 
-const client = new Paho.Client('broker.emqx.io', 8083, 'reactNativeClientId_' + parseInt(Math.random() * 100000));
+const client = new Paho.Client('10.44.1.35', 9001, 'reactNativeClientId_' + parseInt(Math.random() * 100000));
 
 export default function GeralScreen({ navigation }) {
 
@@ -20,8 +20,6 @@ export default function GeralScreen({ navigation }) {
   const [umid, setUmid] = useState(0);
   const [salas, setSalas] = useState([]);
   const [alertas, setAlertas] = useState([]);
-
-  const ondaAnim = new Animated.Value(0);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -86,7 +84,6 @@ export default function GeralScreen({ navigation }) {
           )
         );
       }
-
     };
 
     client.connect({
@@ -134,20 +131,6 @@ export default function GeralScreen({ navigation }) {
     }
   };
 
-  Animated.loop(
-    Animated.timing(ondaAnim, {
-      toValue: 1,
-      duration: 3000,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    })
-  ).start()
-
-  const translateX = ondaAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, -200],
-  })
-
   const togglePower = (sala) => {
     const comando = sala.ligado ? "off" : "on";
     const mqttMessage = new Paho.Message(comando);
@@ -168,6 +151,7 @@ export default function GeralScreen({ navigation }) {
   };
 
   let index = 0;
+
   return (
     <ScrollView style={styles.container}>
 
@@ -181,6 +165,7 @@ export default function GeralScreen({ navigation }) {
           </View>
         </View>
       )}
+
       <FlatList
         data={salas}
         keyExtractor={espaco => espaco.num_espaco}
@@ -188,9 +173,6 @@ export default function GeralScreen({ navigation }) {
 
           return (
             <View key={index} style={styles.card}>
-              <Animated.View
-                style={[styles.wave, { transform: [{ translateX }] }]}
-              />
               <View style={styles.cardHeader}>
                 <Feather name="monitor" size={20} color="#4B9CD3" />
                 <Text style={styles.salaNome}>{item.num_espaco}</Text>
@@ -203,10 +185,14 @@ export default function GeralScreen({ navigation }) {
               </View>
 
               <View style={styles.statusRow}>
-                <Feather name="thermometer" size={24} color="#1E90FF" />
-                <Text style={styles.temp}>{item.temperatura}°C</Text>
-                <Feather name="droplet" size={24} color="#1E90FF" />
-                <Text style={styles.temp}>{item.umidade}%</Text>
+                <View style={styles.statusIcon1}>
+                  <Feather name="thermometer" size={24} color="#1E90FF" />
+                  <Text style={styles.temp}>{item.temperatura}°C</Text>
+                </View>
+                <View style={styles.statusIcon2}>
+                  <Feather name="droplet" size={24} color="#1E90FF" />
+                  <Text style={styles.temp}>{item.umidade}%</Text>
+                </View>
               </View>
 
               <View style={styles.buttonRow}>
@@ -237,9 +223,6 @@ export default function GeralScreen({ navigation }) {
           )
         }}
       />
-
-
-
     </ScrollView>
   )
 }

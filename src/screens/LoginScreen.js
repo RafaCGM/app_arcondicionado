@@ -22,7 +22,7 @@ export default function LoginScreen({ navigation }) {
 
             if (res.data.num_erro == 0) {
 
-                navigation.navigate('Main')
+                navigation.navigate('Home')
             }
 
             if (res.data.num_erro == 1) {
@@ -40,7 +40,7 @@ export default function LoginScreen({ navigation }) {
             <View style={styles.waveContainer} />
             <View style={styles.waveContainerBottom} /> 
             <View style={styles.containerbox}>
-                <Text style={styles.titulo1}>Sistema de Ar Condicionado</Text>
+                <Text style={styles.titulo1}>TechAir</Text>
 
                 <Text style={styles.label}>E-mail:</Text>
                 <TextInput

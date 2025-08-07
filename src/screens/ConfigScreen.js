@@ -9,7 +9,7 @@ export default function ConfigScreen({ navigation }) {
         { icon: "map", label: "Espaços", route: "Lista de Espaços" },
         { icon: "cpu", label: "Equipamentos", route: "Lista de Equipamentos" },
         { icon: "activity", label: "Monitoramentos", route: "Lista de Monitoramentos" },
-        { icon: "wifi", label: "MQTT Teste", route: "MQTT Teste" },
+      
     ];
 
     return (
