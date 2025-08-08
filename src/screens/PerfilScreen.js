@@ -1,4 +1,8 @@
-import React from "react";
+import axios from 'axios'
+import { server } from '../global/GlobalVars';
+
+import React, { useState, useEffect } from "react"
+import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, ScrollView, Dimensions, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { LineChart, BarChart } from "react-native-chart-kit";
@@ -7,6 +11,24 @@ import styles from '../styles/PerfilScreenStyles';
 
 export default function PerfilScreen({ navigation }) {
   const screenWidth = Dimensions.get("window").width;
+  const [numSalas, setNumSalas] = useState(0);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      async function fetchSalas() {
+        try {
+          const res = await axios.post(`${server}/espaco/list`, {});
+          if (res.data && res.data.res) {
+            setNumSalas(res.data.res.length);
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      fetchSalas();
+      return () => { };
+    }, [])
+  );
 
   const dadosTemperatura = {
     labels: ["8h", "10h", "12h", "14h", "16h", "18h"],
@@ -21,7 +43,7 @@ export default function PerfilScreen({ navigation }) {
         <View style={styles.box}>
           <Feather name="home" size={30} color="#4CAF50" />
           <Text style={styles.boxLabel}>Salas Monitoradas</Text>
-          <Text style={styles.boxValue}>12</Text>
+          <Text style={styles.boxValue}>{numSalas}</Text>
         </View>
         <View style={styles.box}>
           <Feather name="activity" size={30} color="#4CAF50" />
