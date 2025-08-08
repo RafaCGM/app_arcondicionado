@@ -1,17 +1,28 @@
-import axios from 'axios'
+import axios from 'axios';
 import { server } from '../global/GlobalVars';
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, ScrollView, Dimensions, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { LineChart, BarChart } from "react-native-chart-kit";
+import { LineChart } from "react-native-chart-kit";
+import Paho from 'paho-mqtt';
 
 import styles from '../styles/PerfilScreenStyles';
+
+// ======== MQTT CONFIG ============
+const client = new Paho.Client('10.44.1.35', 9001, 'reactNativeClientId_' + parseInt(Math.random() * 100000));
+const MAX_PONTOS = 60;
+// =================================
 
 export default function PerfilScreen({ navigation }) {
   const screenWidth = Dimensions.get("window").width;
   const [numSalas, setNumSalas] = useState(0);
+  const [labels, setLabels] = useState([]);
+  const [ultimaTemp, setUltimaTemp] = useState(null);
+
+  // Novo: histórico local de temperaturas da sala 140
+  const [historicoTemp, setHistoricoTemp] = useState([]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -30,10 +41,59 @@ export default function PerfilScreen({ navigation }) {
     }, [])
   );
 
+  useEffect(() => {
+    client.onConnectionLost = (responseObject) => {
+      if (responseObject.errorCode !== 0) {
+        console.error('MQTT conexão perdida:', responseObject.errorMessage);
+      }
+    };
+
+    client.onMessageArrived = (message) => {
+      const temp = parseFloat(message.payloadString);
+      if (!isNaN(temp)) {
+        setUltimaTemp(temp);
+        setHistoricoTemp(prev => {
+          const novo = [...prev, temp];
+          // Limita o histórico a 20 pontos (ou o que preferir)
+          return novo.length > 20 ? novo.slice(novo.length - 20) : novo;
+        });
+      }
+    };
+
+    client.connect({
+      onSuccess: () => {
+        client.subscribe('ifrncang/temp/140');
+      },
+      onFailure: (error) => {
+        console.error('MQTT falha ao conectar:', error);
+      },
+      useSSL: false,
+      timeout: 3,
+    });
+
+    return () => {
+      client.disconnect();
+    };
+  }, []);
+
+  // Labels para o gráfico (ex: ["", "", "", ...])
+  useEffect(() => {
+    setLabels(Array(historicoTemp.length).fill(""));
+  }, [historicoTemp]);
+
+  
+  // Dados do gráfico: usa o histórico local MQTT
   const dadosTemperatura = {
-    labels: ["8h", "10h", "12h", "14h", "16h", "18h"],
-    datasets: [{ data: [22, 24, 23, 25, 26, 24], strokeWidth: 2 }],
+    labels: labels,
+    datasets: [{
+      data: historicoTemp,
+      strokeWidth: 2
+    }],
   };
+
+  const mediaTemp = historicoTemp.length > 0
+    ? (historicoTemp.reduce((a, b) => a + b, 0) / historicoTemp.length).toFixed(1)
+    : 0;
 
   return (
     <ScrollView style={styles.container}>
@@ -56,7 +116,7 @@ export default function PerfilScreen({ navigation }) {
         <View style={styles.box}>
           <Feather name="thermometer" size={30} color="#4CAF50" />
           <Text style={styles.boxLabel}>Temp. Média</Text>
-          <Text style={styles.boxValue}>23°C</Text>
+          <Text style={styles.boxValue}>{mediaTemp}°C</Text>
         </View>
         <View style={styles.box}>
           <Feather name="clock" size={30} color="#4CAF50" />
@@ -77,12 +137,19 @@ export default function PerfilScreen({ navigation }) {
         }}
         bezier
         style={styles.chart}
+        withDots
+        withShadow
+        withInnerLines
+        withOuterLines
       />
 
       <View style={{ flexDirection: "row", justifyContent: "space-around", marginBottom: 40 }}>
-        <TouchableOpacity style={[styles.controlButton, { width: "45%" }]}>
+        <TouchableOpacity
+          style={[styles.controlButton, { width: "45%" }]}
+          onPress={() => setHistoricoTemp([])}
+        >
           <Feather name="refresh-cw" size={20} color="#fff" />
-          <Text style={[styles.powerText, { marginLeft: 8 }]}>Atualizar Dados</Text>
+          <Text style={[styles.powerText, { marginLeft: 8 }]}>Limpar Gráfico</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
