@@ -1,27 +1,24 @@
+import Paho from 'paho-mqtt';
 import axios from 'axios';
 import { server } from '../global/GlobalVars';
 
 import React, { useState, useEffect, useRef } from "react";
-import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, ScrollView, Dimensions, TouchableOpacity } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { useFocusEffect } from '@react-navigation/native';
 import { LineChart } from "react-native-chart-kit";
-import Paho from 'paho-mqtt';
 
+import { Feather } from "@expo/vector-icons";
 import styles from '../styles/PerfilScreenStyles';
 
-// ======== MQTT CONFIG ============
-const client = new Paho.Client('10.44.1.35', 9001, 'reactNativeClientId_' + parseInt(Math.random() * 100000));
+const client = new Paho.Client('broker.emqx.io', 8083, 'reactNativeClientId_' + parseInt(Math.random() * 100000));
 const MAX_PONTOS = 60;
-// =================================
 
 export default function PerfilScreen({ navigation }) {
   const screenWidth = Dimensions.get("window").width;
   const [numSalas, setNumSalas] = useState(0);
   const [labels, setLabels] = useState([]);
   const [ultimaTemp, setUltimaTemp] = useState(null);
-
-  // Novo: histórico local de temperaturas da sala 140
+  const [numArLigados, setNumArLigados] = useState(0);
   const [historicoTemp, setHistoricoTemp] = useState([]);
 
   useFocusEffect(
@@ -30,7 +27,12 @@ export default function PerfilScreen({ navigation }) {
         try {
           const res = await axios.post(`${server}/espaco/list`, {});
           if (res.data && res.data.res) {
-            setNumSalas(res.data.res.length);
+            const todasSalas = res.data.res;
+
+            setNumSalas(todasSalas.length);
+
+            const arLigados = todasSalas.filter(sala => Boolean(sala.status));
+            setNumArLigados(arLigados.length);
           }
         } catch (e) {
           console.log(e);
@@ -54,8 +56,8 @@ export default function PerfilScreen({ navigation }) {
         setUltimaTemp(temp);
         setHistoricoTemp(prev => {
           const novo = [...prev, temp];
-          // Limita o histórico a 20 pontos (ou o que preferir)
-          return novo.length > 20 ? novo.slice(novo.length - 20) : novo;
+
+          return novo.length > 15 ? novo.slice(novo.length - 15) : novo;
         });
       }
     };
@@ -76,13 +78,10 @@ export default function PerfilScreen({ navigation }) {
     };
   }, []);
 
-  // Labels para o gráfico (ex: ["", "", "", ...])
   useEffect(() => {
     setLabels(Array(historicoTemp.length).fill(""));
   }, [historicoTemp]);
 
-  
-  // Dados do gráfico: usa o histórico local MQTT
   const dadosTemperatura = {
     labels: labels,
     datasets: [{
@@ -108,7 +107,7 @@ export default function PerfilScreen({ navigation }) {
         <View style={styles.box}>
           <Feather name="activity" size={30} color="#4CAF50" />
           <Text style={styles.boxLabel}>Ar Ligados</Text>
-          <Text style={styles.boxValue}>7</Text>
+          <Text style={styles.boxValue}>{numArLigados}</Text>
         </View>
       </View>
 
@@ -141,6 +140,8 @@ export default function PerfilScreen({ navigation }) {
         withShadow
         withInnerLines
         withOuterLines
+        formatYLabel={yValue => `${parseInt(yValue)}°C`}
+        fromZero={true}
       />
 
       <View style={{ flexDirection: "row", justifyContent: "space-around", marginBottom: 40 }}>

@@ -2,14 +2,14 @@ import Paho from 'paho-mqtt';
 import axios from 'axios'
 import { server } from '../global/GlobalVars';
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { View, Text, TouchableOpacity, FlatList, ScrollView } from "react-native"
 import { useFocusEffect } from "@react-navigation/native";
 
 import { Feather } from "@expo/vector-icons"
 import styles from "../styles/GeralScreenStyles"
 
-const client = new Paho.Client('10.44.1.35', 9001, 'reactNativeClientId_' + parseInt(Math.random() * 100000));
+const client = new Paho.Client('broker.emqx.io', 8083, 'reactNativeClientId_' + parseInt(Math.random() * 100000));
 
 export default function GeralScreen({ navigation }) {
 
@@ -20,6 +20,8 @@ export default function GeralScreen({ navigation }) {
   const [umid, setUmid] = useState(0);
   const [salas, setSalas] = useState([]);
   const [alertas, setAlertas] = useState([]);
+  const [lastToggleTimes, setLastToggleTimes] = useState({});
+  const [lastTempChangeTimes, setLastTempChangeTimes] = useState({});
 
   useFocusEffect(
     React.useCallback(() => {
@@ -106,14 +108,12 @@ export default function GeralScreen({ navigation }) {
   const list = async () => {
     try {
       const dt = await axios.post(`${server}/espaco/list`, {});
-
       const listaSalas = dt.data.res.map(espaco => {
-        const salaAtual = salas.find(s => s.num_espaco === `${espaco.num_espaco}`);
         return {
           num_espaco: `${espaco.num_espaco}`,
           temperatura: temp,
           umidade: umid,
-          ligado: salaAtual ? salaAtual.ligado : false,
+          ligado: Boolean(espaco.status),
           conectado: true,
         };
       });
@@ -132,19 +132,59 @@ export default function GeralScreen({ navigation }) {
   };
 
   const togglePower = (sala) => {
+    const now = Date.now();
+    const lastTime = lastToggleTimes[sala.num_espaco] || 0;
+    if (now - lastTime < 1500) {
+      return;
+    }
+    setLastToggleTimes(prev => ({
+      ...prev,
+      [sala.num_espaco]: now
+    }));
+
     const comando = sala.ligado ? "off" : "on";
     const mqttMessage = new Paho.Message(comando);
     mqttMessage.destinationName = `ac/control/${sala.num_espaco}`;
     client.send(mqttMessage);
+
+    try {
+      axios.post(`${server}/equipamento/updateStatus`, {
+        num_espaco: sala.num_espaco,
+        ligado: !sala.ligado
+      });
+    } catch (e) {
+      console.log("Erro ao atualizar status no banco:", e);
+    }
+
   };
 
   const aumentar = (sala) => {
+    const now = Date.now();
+    const lastTime = lastTempChangeTimes[sala.num_espaco] || 0;
+    if (now - lastTime < 1000) {
+      return;
+    }
+    setLastTempChangeTimes(prev => ({
+      ...prev,
+      [sala.num_espaco]: now
+    }));
+
     const mqttMessage = new Paho.Message("up");
     mqttMessage.destinationName = `ac/control/${sala.num_espaco}`;
     client.send(mqttMessage);
   };
 
   const diminuir = (sala) => {
+    const now = Date.now();
+    const lastTime = lastTempChangeTimes[sala.num_espaco] || 0;
+    if (now - lastTime < 1000) {
+      return;
+    }
+    setLastTempChangeTimes(prev => ({
+      ...prev,
+      [sala.num_espaco]: now
+    }));
+
     const mqttMessage = new Paho.Message("down");
     mqttMessage.destinationName = `ac/control/${sala.num_espaco}`;
     client.send(mqttMessage);
@@ -226,4 +266,3 @@ export default function GeralScreen({ navigation }) {
     </ScrollView>
   )
 }
-
