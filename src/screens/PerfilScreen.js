@@ -10,7 +10,7 @@ import { LineChart } from "react-native-chart-kit";
 import { Feather } from "@expo/vector-icons";
 import styles from '../styles/PerfilScreenStyles';
 
-const client = new Paho.Client('broker.emqx.io', 8083, 'reactNativeClientId_' + parseInt(Math.random() * 100000));
+const client = new Paho.Client('10.44.1.35', 9001, 'reactNativeClientId_' + parseInt(Math.random() * 100000));
 const MAX_PONTOS = 60;
 
 export default function PerfilScreen({ navigation }) {

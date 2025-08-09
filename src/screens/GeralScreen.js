@@ -1,15 +1,15 @@
 import Paho from 'paho-mqtt';
-import axios from 'axios'
+import axios from 'axios';
 import { server } from '../global/GlobalVars';
 
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect} from "react"
 import { View, Text, TouchableOpacity, FlatList, ScrollView } from "react-native"
 import { useFocusEffect } from "@react-navigation/native";
 
 import { Feather } from "@expo/vector-icons"
 import styles from "../styles/GeralScreenStyles"
 
-const client = new Paho.Client('broker.emqx.io', 8083, 'reactNativeClientId_' + parseInt(Math.random() * 100000));
+const client = new Paho.Client('10.44.1.35', 9001, 'reactNativeClientId_' + parseInt(Math.random() * 100000));
 
 export default function GeralScreen({ navigation }) {
 
