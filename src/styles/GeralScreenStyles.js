@@ -85,11 +85,14 @@ export default StyleSheet.create({
     alignItems: "center",
     marginTop: 10,
   },
+   control: {
+    flexDirection: "row",
+    gap: 50
+  },
   controlButton: {
     backgroundColor: colors.primary,
     padding: 12,
     borderRadius: 10,
-    transform: [{ scale: 1 }],
   },
   powerButton: {
     flexDirection: "row",

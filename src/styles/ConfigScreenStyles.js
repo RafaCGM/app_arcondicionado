@@ -77,7 +77,7 @@ export default StyleSheet.create({
     height: 200,
     backgroundColor: colors.wave,
     borderRadius: 200,
-    opacity: 0.4,
+    opacity: 5,
     transform: [{ rotate: "20deg" }],
   },
   waveContainerBottom: {
@@ -88,7 +88,7 @@ export default StyleSheet.create({
     height: 200,
     backgroundColor: colors.wave,
     borderRadius: 200,
-    opacity: 0.4,
+    opacity: 5,
     transform: [{ rotate: "-20deg" }],
   },
   infoSection: {

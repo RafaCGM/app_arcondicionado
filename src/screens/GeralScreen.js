@@ -2,7 +2,7 @@ import Paho from 'paho-mqtt';
 import axios from 'axios';
 import { server } from '../global/GlobalVars';
 
-import React, { useState, useEffect} from "react"
+import React, { useState, useEffect } from "react"
 import { View, Text, TouchableOpacity, FlatList, ScrollView } from "react-native"
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -19,7 +19,6 @@ export default function GeralScreen({ navigation }) {
   const [temp, setTemp] = useState(0);
   const [umid, setUmid] = useState(0);
   const [salas, setSalas] = useState([]);
-  const [alertas, setAlertas] = useState([]);
   const [lastToggleTimes, setLastToggleTimes] = useState({});
   const [lastTempChangeTimes, setLastTempChangeTimes] = useState({});
 
@@ -78,13 +77,17 @@ export default function GeralScreen({ navigation }) {
 
       if (message.destinationName.startsWith("ac/control/")) {
         const num_espaco = message.destinationName.split("/")[2];
-        setSalas((prevSalas) =>
-          prevSalas.map((sala) =>
-            sala.num_espaco === num_espaco
-              ? { ...sala, ligado: message.payloadString === "on" }
-              : sala
-          )
-        );
+        const payload = message.payloadString;
+
+        if (payload === "on" || payload === "off") {
+          setSalas(prevSalas =>
+            prevSalas.map(sala =>
+              sala.num_espaco === num_espaco
+                ? { ...sala, ligado: payload === "on" }
+                : sala
+            )
+          );
+        }
       }
     };
 
@@ -195,16 +198,6 @@ export default function GeralScreen({ navigation }) {
   return (
     <ScrollView style={styles.container}>
 
-      {alertas.length > 0 && (
-        <View style={styles.alertBox}>
-          <Feather name="alert-triangle" size={20} color="#DC2626" />
-          <View style={{ marginLeft: 10 }}>
-            {alertas.map((msg, idx) => (
-              <Text key={idx} style={styles.alertText}>{msg}</Text>
-            ))}
-          </View>
-        </View>
-      )}
 
       <FlatList
         data={salas}
@@ -236,28 +229,32 @@ export default function GeralScreen({ navigation }) {
               </View>
 
               <View style={styles.buttonRow}>
-                <TouchableOpacity
-                  style={styles.controlButton}
-                  onPress={() => diminuir(item)}
-                >
-                  <Feather name="minus" size={18} color="#fff" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.controlButton}
-                  onPress={() => aumentar(item)}
-                >
-                  <Feather name="plus" size={18} color="#fff" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.powerButton,
-                    { backgroundColor: item.ligado ? "#34D399" : "#EF4444" }
-                  ]}
-                  onPress={() => togglePower(item)}
-                >
-                  <Feather name="power" size={20} color="#fff" />
-                  <Text style={styles.powerText}>{item.ligado ? "Ligado" : "Desligado"}</Text>
-                </TouchableOpacity>
+                <View style={styles.control}>
+                  <TouchableOpacity
+                    style={styles.controlButton}
+                    onPress={() => diminuir(item)}
+                  >
+                    <Feather name="minus" size={18} color="#fff" />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.controlButton}
+                    onPress={() => aumentar(item)}
+                  >
+                    <Feather name="plus" size={18} color="#fff" />
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <TouchableOpacity
+                    style={[
+                      styles.powerButton,
+                      { backgroundColor: item.ligado ? "#34D399" : "#EF4444" }
+                    ]}
+                    onPress={() => togglePower(item)}
+                  >
+                    <Feather name="power" size={20} color="#fff" />
+                    <Text style={styles.powerText}>{item.ligado ? "Ligado" : "Desligado"}</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           )

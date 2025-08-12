@@ -44,7 +44,7 @@ export default function CadastroEquipamentoScreen({ navigation }) {
             <View style={styles.containerbox}>
                 <Text style={styles.label}>Número da sala onde o equipamento se encontra:</Text>
                 <TextInput style={styles.input}
-                    value={espaco_idespaco}
+                    value={espaco_num_espaco}
                     onChangeText={(espaco_num_espaco => setEspaco_num_espaco(espaco_num_espaco))}
                 />
                 <TouchableOpacity onPress={create}>

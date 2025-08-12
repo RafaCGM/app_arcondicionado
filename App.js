@@ -42,14 +42,14 @@ function BottomTabsNavigator() {
             case 'Home':
               iconName = focused ? 'home' : 'home';  // Ícone de casa do Feather
               break;
-            case 'Perfil':
-              iconName = focused ? 'user' : 'user';  // Ícone de usuário do Feather
+            case 'Dashboard':
+              iconName = focused ? 'activity' : 'activity';  // Ícone do Dashboard do Feather
               break;
             case 'Geral':
               iconName = focused ? 'list' : 'list';  // Ícone de lista do Feather
               break;
-            case 'Configurações':
-              iconName = focused ? 'settings' : 'settings';  // Ícone de configurações do Feather
+            case 'CRUD':
+              iconName = focused ? 'settings' : 'settings';  // Ícone de CRUD do Feather
               break;
           }
           return <Feather name={iconName} size={size} color={color} />;
@@ -61,8 +61,8 @@ function BottomTabsNavigator() {
     >
       {/* <Tab.Screen name="Home" component={HomeScreen} /> */}
       <Tab.Screen name="Geral" component={GeralScreen} />
-      <Tab.Screen name="Perfil" component={PerfilScreen} />
-      <Tab.Screen name="Configurações" component={ConfigScreen} />
+      <Tab.Screen name="Dashboard" component={PerfilScreen} />
+      <Tab.Screen name="CRUD" component={ConfigScreen} />
     </Tab.Navigator>
   );
 }
