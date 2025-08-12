@@ -155,7 +155,7 @@ export default function PerfilScreen({ navigation }) {
 
         <TouchableOpacity
           style={[styles.controlButton, { width: "45%" }]}
-          onPress={() => navigation.navigate("Configurações")}
+          onPress={() => navigation.navigate("CRUD")}
         >
           <Feather name="settings" size={20} color="#fff" />
           <Text style={[styles.powerText, { marginLeft: 8 }]}>Configurações</Text>
